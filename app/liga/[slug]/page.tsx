@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllLeagues, getLeagueById, getLeagueDisplayName, getLeagueGroups } from "@/lib/leagues";
-import { getActiveSeasonForLeague } from "@/lib/seasons";
+import { getAllSeasons, getActiveSeasonForLeague } from "@/lib/seasons";
 import { getAllClubs, getClubsByLeagueName, getLeagueColor, getLeagueTextColor, getLeagueTextColorDark } from "@/lib/clubs";
 import { getStandings, getSortedStandingsRows } from "@/lib/standings";
 import { getMatchesData, getFixtures, getResults } from "@/lib/matches";
@@ -30,63 +30,75 @@ const SECTIONS = [
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  return getAllLeagues().map((l) => ({ slug: l.id }));
+  const leagues = await getAllLeagues();
+  return leagues.map((l) => ({ slug: l.id }));
 }
 
 export default async function LeagueDetailPage({ params }: Props) {
   const { slug } = await params;
-  const league = getLeagueById(slug);
+  const league = await getLeagueById(slug);
   if (!league) notFound();
 
   const clubs = await getAllClubs();
   const leagueClubs = getClubsByLeagueName(clubs, league.name);
-  const season = getActiveSeasonForLeague(league.id);
+  const seasons = await getAllSeasons();
+  const season = getActiveSeasonForLeague(seasons, league.id);
   const color = getLeagueColor(league.name);
   const textColor = getLeagueTextColor(league.name);
   const textColorDark = getLeagueTextColorDark(league.name);
-  const groups = getLeagueGroups(league.id);
+  const groups = getLeagueGroups(league);
 
   // Non-grouped path (Liga 1/3 today): unchanged single fetch. For a
   // grouped league these simply resolve to undefined/[] (the flat
   // "liga-2" key no longer exists), which is harmless since the grouped
   // branch below never reads them.
-  const standingsData = getStandings(league.id);
-  const standingsRows = getSortedStandingsRows(league.id);
-  const matchesData = getMatchesData(league.id);
-  const fixtures = getFixtures(league.id);
-  const results = getResults(league.id);
-  const playerStatsData = getPlayerStatsData(league.id);
-  const topScorers = getTopScorers(league.id, 20);
-  const topAssists = getTopAssists(league.id, 20);
+  const standingsData = await getStandings(league.id);
+  const standingsRows = await getSortedStandingsRows(league.id);
+  const matchesData = await getMatchesData(league.id);
+  const fixtures = await getFixtures(league.id);
+  const results = await getResults(league.id);
+  const playerStatsData = await getPlayerStatsData(league.id);
+  const topScorers = await getTopScorers(league.id, 20);
+  const topAssists = await getTopAssists(league.id, 20);
 
   // Grouped path (Liga 2 today): one fetch per group.
-  const groupStandings = groups.map((g) => ({
-    id: g.id,
-    label: g.label,
-    rows: getSortedStandingsRows(league.id, g.id),
-    clubs: leagueClubs.filter((c) => c.group === g.id),
-    updatedAt: getStandings(league.id, g.id)?.updatedAt ?? null,
-  }));
-  const groupedFixtures = groups.map((g) => ({
-    groupId: g.id,
-    groupLabel: g.label,
-    matches: getFixtures(league.id, g.id),
-  }));
-  const groupedResults = groups.map((g) => ({
-    groupId: g.id,
-    groupLabel: g.label,
-    matches: getResults(league.id, g.id),
-  }));
-  const groupedTopScorers = groups.map((g) => ({
-    groupId: g.id,
-    groupLabel: g.label,
-    players: getTopScorers(league.id, 20, g.id),
-  }));
-  const groupedTopAssists = groups.map((g) => ({
-    groupId: g.id,
-    groupLabel: g.label,
-    players: getTopAssists(league.id, 20, g.id),
-  }));
+  const groupStandings = await Promise.all(
+    groups.map(async (g) => ({
+      id: g.id,
+      label: g.label,
+      rows: await getSortedStandingsRows(league.id, g.id),
+      clubs: leagueClubs.filter((c) => c.group === g.id),
+      updatedAt: (await getStandings(league.id, g.id))?.updatedAt ?? null,
+    }))
+  );
+  const groupedFixtures = await Promise.all(
+    groups.map(async (g) => ({
+      groupId: g.id,
+      groupLabel: g.label,
+      matches: await getFixtures(league.id, g.id),
+    }))
+  );
+  const groupedResults = await Promise.all(
+    groups.map(async (g) => ({
+      groupId: g.id,
+      groupLabel: g.label,
+      matches: await getResults(league.id, g.id),
+    }))
+  );
+  const groupedTopScorers = await Promise.all(
+    groups.map(async (g) => ({
+      groupId: g.id,
+      groupLabel: g.label,
+      players: await getTopScorers(league.id, 20, g.id),
+    }))
+  );
+  const groupedTopAssists = await Promise.all(
+    groups.map(async (g) => ({
+      groupId: g.id,
+      groupLabel: g.label,
+      players: await getTopAssists(league.id, 20, g.id),
+    }))
+  );
 
   return (
     <div className="relative min-h-screen bg-[#F5F6FA] dark:bg-[#0d1b2a]">
