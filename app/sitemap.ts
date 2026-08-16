@@ -11,7 +11,7 @@ export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const clubs = await getAllClubs();
-  const leagues = getAllLeagues();
+  const leagues = await getAllLeagues();
 
   const homeEntry: MetadataRoute.Sitemap[number] = {
     url: BASE_URL,
