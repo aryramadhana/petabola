@@ -1,17 +1,29 @@
-import leaguesData from "@/data/leagues.json";
+import { supabase } from "@/lib/supabase";
 import type { LeagueGroup, LeagueInfo } from "@/types/league";
 import type { League } from "@/types";
 
-export function getAllLeagues(): LeagueInfo[] {
-  return leaguesData as LeagueInfo[];
+export async function getAllLeagues(): Promise<LeagueInfo[]> {
+  const { data, error } = await supabase.from("leagues").select("*").order("level");
+  if (error) {
+    throw new Error(`Gagal mengambil data liga dari Supabase: ${error.message}`);
+  }
+  return data as LeagueInfo[];
 }
 
-export function getLeagueById(id: string): LeagueInfo | undefined {
-  return getAllLeagues().find((l) => l.id === id);
+export async function getLeagueById(id: string): Promise<LeagueInfo | null> {
+  const { data, error } = await supabase
+    .from("leagues")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  if (error) {
+    throw new Error(`Gagal mengambil data liga "${id}" dari Supabase: ${error.message}`);
+  }
+  return data as LeagueInfo | null;
 }
 
-export function getLeagueGroups(leagueId: string): LeagueGroup[] {
-  return getLeagueById(leagueId)?.groups ?? [];
+export function getLeagueGroups(league: LeagueInfo): LeagueGroup[] {
+  return league.groups ?? [];
 }
 
 // Sponsor/brand names used only for prominent heading display — the
