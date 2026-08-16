@@ -1,34 +1,38 @@
-import liga1 from "@/data/matches/liga-1.json";
-import liga2Barat from "@/data/matches/liga-2-barat.json";
-import liga2Timur from "@/data/matches/liga-2-timur.json";
-import liga3 from "@/data/matches/liga-3.json";
+import { supabase } from "@/lib/supabase";
 import type { Match, MatchesData } from "@/types/match";
 
-const BY_LEAGUE: Record<string, MatchesData> = {
-  "liga-1": liga1 as MatchesData,
-  "liga-2-barat": liga2Barat as MatchesData,
-  "liga-2-timur": liga2Timur as MatchesData,
-  "liga-3": liga3 as MatchesData,
-};
-
-function key(leagueId: string, groupId?: string): string {
+function rowId(leagueId: string, groupId?: string): string {
   return groupId ? `${leagueId}-${groupId}` : leagueId;
 }
 
-export function getMatchesData(leagueId: string, groupId?: string): MatchesData | undefined {
-  return BY_LEAGUE[key(leagueId, groupId)];
+export async function getMatchesData(leagueId: string, groupId?: string): Promise<MatchesData | undefined> {
+  const id = rowId(leagueId, groupId);
+  const { data, error } = await supabase
+    .from("matches")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  if (error) {
+    throw new Error(`Gagal mengambil data pertandingan "${id}" dari Supabase: ${error.message}`);
+  }
+  if (!data) return undefined;
+  return {
+    seasonId: data.seasonId,
+    updatedAt: data.updatedAt,
+    matches: data.matches as Match[],
+  };
 }
 
-export function getFixtures(leagueId: string, groupId?: string): Match[] {
-  const data = getMatchesData(leagueId, groupId);
+export async function getFixtures(leagueId: string, groupId?: string): Promise<Match[]> {
+  const data = await getMatchesData(leagueId, groupId);
   if (!data) return [];
   return data.matches
     .filter((m) => m.status === "scheduled")
     .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 }
 
-export function getResults(leagueId: string, groupId?: string): Match[] {
-  const data = getMatchesData(leagueId, groupId);
+export async function getResults(leagueId: string, groupId?: string): Promise<Match[]> {
+  const data = await getMatchesData(leagueId, groupId);
   if (!data) return [];
   return data.matches
     .filter(
