@@ -1,5 +1,6 @@
 import type { Club } from "@/types";
-import { getAllLeagues } from "@/lib/leagues";
+import type { LeagueInfo } from "@/types/league";
+import type { Season } from "@/types/season";
 import { getActiveSeasonForLeague } from "@/lib/seasons";
 import { getClubsByLeagueName, getLeagueColor } from "@/lib/clubs";
 import { LeagueCard } from "@/app/components/leagues/LeagueCard";
@@ -8,11 +9,11 @@ import { AmbientGlow } from "@/app/components/sections/AmbientGlow";
 
 interface Props {
   clubs: Club[];
+  leagues: LeagueInfo[];
+  seasons: Season[];
 }
 
-export function LigaSection({ clubs }: Props) {
-  const leagues = getAllLeagues();
-
+export function LigaSection({ clubs, leagues, seasons }: Props) {
   return (
     <section id="liga" className="relative overflow-hidden scroll-mt-16 snap-start py-16 px-4">
       <AmbientGlow>
@@ -36,7 +37,7 @@ export function LigaSection({ clubs }: Props) {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {leagues.map((league, i) => {
             const clubCount = getClubsByLeagueName(clubs, league.name).length;
-            const season = getActiveSeasonForLeague(league.id);
+            const season = getActiveSeasonForLeague(seasons, league.id);
             return (
               <ScrollReveal key={league.id} delayMs={staggerDelay(i)} className="h-full">
                 <LeagueCard

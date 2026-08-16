@@ -3,6 +3,8 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import type { Club, FilterLeague } from "@/types";
+import type { LeagueInfo } from "@/types/league";
+import type { Season } from "@/types/season";
 import { filterClubs, getLeagueColor } from "@/lib/clubs";
 import { Header } from "./components/ui/Header";
 import { Sidebar } from "./components/ui/Sidebar";
@@ -20,9 +22,11 @@ const MapView = dynamic(
 
 interface Props {
   clubs: Club[];
+  leagues: LeagueInfo[];
+  seasons: Season[];
 }
 
-export function HomePage({ clubs }: Props) {
+export function HomePage({ clubs, leagues, seasons }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
   const [leagueFilter, setLeagueFilter] = useState<FilterLeague>("all");
@@ -165,7 +169,7 @@ export function HomePage({ clubs }: Props) {
         </div>
       </section>
 
-      <LigaSection clubs={clubs} />
+      <LigaSection clubs={clubs} leagues={leagues} seasons={seasons} />
       <TentangSection />
       <Footer />
 
