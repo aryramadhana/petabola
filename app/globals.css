@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+/* Smooth in-page anchor scrolling (nav sections, /liga/[slug] sub-nav) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  background: #EEF2FF !important;
+  font-family: var(--font-pjs) !important;
+}
+
+/* Marker hover/tap feedback */
+.petabola-marker {
+  transform-origin: bottom center;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .petabola-marker {
+    transition: transform 150ms ease-out;
+  }
+}
+.petabola-marker:hover,
+.petabola-marker:active,
+.petabola-marker:focus-visible {
+  transform: scale(1.08);
+}
+
+/* Logo hop on hover */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes logo-bounce {
+    0%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-3px); }
+    55% { transform: translateY(0.5px); }
+    75% { transform: translateY(-1px); }
+  }
+  .logo-mark:hover,
+  .logo-mark:focus-visible {
+    animation: logo-bounce 0.5s ease-in-out;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #E5E7EB;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f4645a;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #0d9488;
+}
