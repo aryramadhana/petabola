@@ -1,9 +1,6 @@
 import type { MetadataRoute } from "next";
 
-// Placeholder domain — belum ada domain produksi final saat file ini
-// ditulis. Ganti bareng dengan BASE_URL di app/sitemap.ts begitu domain
-// aslinya sudah fix.
-const BASE_URL = "https://petabola.id";
+const BASE_URL = "https://petabola.vercel.app";
 
 export default function robots(): MetadataRoute.Robots {
   return {

@@ -27,7 +27,7 @@ const SECTIONS = [
   { id: "pertandingan", label: "Pertandingan" },
 ];
 
-export const revalidate = 3600;
+export const revalidate = false;
 
 export async function generateStaticParams() {
   const leagues = await getAllLeagues();

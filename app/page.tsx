@@ -3,7 +3,7 @@ import { getAllLeagues } from "@/lib/leagues";
 import { getAllSeasons } from "@/lib/seasons";
 import { HomePage } from "./HomePage";
 
-export const revalidate = 3600;
+export const revalidate = false;
 
 export default async function Page() {
   const [clubsRaw, leagues, seasons] = await Promise.all([
