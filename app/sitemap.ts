@@ -2,10 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllClubs } from "@/lib/clubs";
 import { getAllLeagues } from "@/lib/leagues";
 
-// Placeholder domain — belum ada domain produksi final saat file ini
-// ditulis. Ganti bareng dengan BASE_URL di app/robots.ts begitu domain
-// aslinya sudah fix.
-const BASE_URL = "https://petabola.id";
+const BASE_URL = "https://petabola.vercel.app";
 
 export const revalidate = false;
 
