@@ -9,3 +9,4 @@ data/
 .claude/
 docs/
 CLAUDE.md
+.supabase/
