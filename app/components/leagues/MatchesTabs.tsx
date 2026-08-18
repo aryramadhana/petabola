@@ -12,6 +12,7 @@ interface GroupedMatches {
   groupId: string;
   groupLabel: string;
   matches: Match[];
+  updatedAt: string | null;
 }
 
 interface Props {
@@ -81,7 +82,15 @@ export function MatchesTabs({ fixtures, results, clubs, color, updatedAt, groupe
             );
           })}
         </div>
-        <DataUpdatedAt label="Jadwal & hasil" updatedAt={updatedAt} />
+        {groupedFixtures ? (
+          <div className="flex flex-col items-end gap-0.5">
+            {groupedFixtures.map((g) => (
+              <DataUpdatedAt key={g.groupId} label={`Jadwal & hasil ${g.groupLabel}`} updatedAt={g.updatedAt} />
+            ))}
+          </div>
+        ) : (
+          <DataUpdatedAt label="Jadwal & hasil" updatedAt={updatedAt} />
+        )}
       </div>
 
       {active === "jadwal" ? (

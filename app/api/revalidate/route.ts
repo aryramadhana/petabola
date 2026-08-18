@@ -11,9 +11,9 @@ const REVALIDATE_BY_TABLE: Record<string, string[]> = {
   clubs: ["/", "/klub/[slug]", "/liga/[slug]", "/sitemap.xml"],
   leagues: ["/", "/liga/[slug]", "/sitemap.xml"],
   seasons: ["/", "/liga/[slug]"],
-  matches: ["/liga/[slug]"],
-  standings: ["/liga/[slug]"],
-  player_stats: ["/liga/[slug]"],
+  matches: ["/", "/liga/[slug]"],
+  standings: ["/", "/liga/[slug]"],
+  player_stats: ["/", "/liga/[slug]"],
 };
 
 export async function POST(request: NextRequest) {

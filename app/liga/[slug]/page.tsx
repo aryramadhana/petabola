@@ -76,6 +76,7 @@ export default async function LeagueDetailPage({ params }: Props) {
       groupId: g.id,
       groupLabel: g.label,
       matches: await getFixtures(league.id, g.id),
+      updatedAt: (await getMatchesData(league.id, g.id))?.updatedAt ?? null,
     }))
   );
   const groupedResults = await Promise.all(
@@ -83,6 +84,7 @@ export default async function LeagueDetailPage({ params }: Props) {
       groupId: g.id,
       groupLabel: g.label,
       matches: await getResults(league.id, g.id),
+      updatedAt: (await getMatchesData(league.id, g.id))?.updatedAt ?? null,
     }))
   );
   const groupedTopScorers = await Promise.all(
@@ -90,6 +92,7 @@ export default async function LeagueDetailPage({ params }: Props) {
       groupId: g.id,
       groupLabel: g.label,
       players: await getTopScorers(league.id, 20, g.id),
+      updatedAt: (await getPlayerStatsData(league.id, g.id))?.updatedAt ?? null,
     }))
   );
   const groupedTopAssists = await Promise.all(
@@ -97,6 +100,7 @@ export default async function LeagueDetailPage({ params }: Props) {
       groupId: g.id,
       groupLabel: g.label,
       players: await getTopAssists(league.id, 20, g.id),
+      updatedAt: (await getPlayerStatsData(league.id, g.id))?.updatedAt ?? null,
     }))
   );
 

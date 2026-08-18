@@ -3,6 +3,14 @@ interface Props {
   label?: string;
 }
 
+export function formatIndonesianDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
 export function DataUpdatedAt({ updatedAt, label = "Data diperbarui" }: Props) {
   if (!updatedAt) {
     return (
@@ -12,11 +20,7 @@ export function DataUpdatedAt({ updatedAt, label = "Data diperbarui" }: Props) {
     );
   }
 
-  const formatted = new Date(updatedAt).toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const formatted = formatIndonesianDate(updatedAt);
 
   return (
     <p className="text-[10px] text-[#9EA3AE] dark:text-white/50">

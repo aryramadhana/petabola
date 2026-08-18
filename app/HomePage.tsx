@@ -24,9 +24,10 @@ interface Props {
   clubs: Club[];
   leagues: LeagueInfo[];
   seasons: Season[];
+  lastDataUpdate: string | null;
 }
 
-export function HomePage({ clubs, leagues, seasons }: Props) {
+export function HomePage({ clubs, leagues, seasons, lastDataUpdate }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
   const [leagueFilter, setLeagueFilter] = useState<FilterLeague>("all");
@@ -170,7 +171,7 @@ export function HomePage({ clubs, leagues, seasons }: Props) {
       </section>
 
       <LigaSection clubs={clubs} leagues={leagues} seasons={seasons} />
-      <TentangSection />
+      <TentangSection lastDataUpdate={lastDataUpdate} />
       <Footer />
 
       {berandaVisible && (

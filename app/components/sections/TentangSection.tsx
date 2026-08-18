@@ -1,6 +1,7 @@
 import { getLeagueColor } from "@/lib/clubs";
 import { AmbientGlow } from "@/app/components/sections/AmbientGlow";
 import { ScrollReveal, staggerDelay } from "@/app/components/sections/ScrollReveal";
+import { formatIndonesianDate } from "@/app/components/shared/DataUpdatedAt";
 import {
   CalendarIcon,
   DatabaseIcon,
@@ -65,7 +66,11 @@ function InfoCard({ icon: Icon, title, body, featured = false, className = "" }:
   );
 }
 
-export function TentangSection() {
+interface Props {
+  lastDataUpdate: string | null;
+}
+
+export function TentangSection({ lastDataUpdate }: Props) {
   return (
     <section id="tentang" className="relative overflow-hidden scroll-mt-16 snap-start py-14 px-4">
       <AmbientGlow>
@@ -106,11 +111,20 @@ export function TentangSection() {
               icon={CalendarIcon}
               title="Tanggal Pembaruan Terakhir"
               body={
-                <>
-                  Data liga dan musim terakhir diperbarui pada <strong>13 Agustus 2026</strong>. Tanggal
-                  pembaruan per klub secara individual belum dicatat pada versi ini — lihat halaman
-                  detail masing-masing klub untuk informasi yang tersedia.
-                </>
+                lastDataUpdate ? (
+                  <>
+                    Data liga, jadwal, klasemen, dan statistik pemain terakhir diperbarui pada{" "}
+                    <strong>{formatIndonesianDate(lastDataUpdate)}</strong>. Tanggal pembaruan per
+                    klub secara individual belum dicatat pada versi ini — lihat halaman detail
+                    masing-masing klub untuk informasi yang tersedia.
+                  </>
+                ) : (
+                  <>
+                    Belum ada data pembaruan yang tercatat. Tanggal pembaruan per klub secara
+                    individual belum dicatat pada versi ini — lihat halaman detail masing-masing
+                    klub untuk informasi yang tersedia.
+                  </>
+                )
               }
             />
           </ScrollReveal>

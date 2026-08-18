@@ -10,6 +10,7 @@ interface GroupedPlayers {
   groupId: string;
   groupLabel: string;
   players: PlayerStat[];
+  updatedAt: string | null;
 }
 
 interface Props {

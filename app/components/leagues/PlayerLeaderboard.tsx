@@ -8,6 +8,7 @@ interface GroupedPlayers {
   groupId: string;
   groupLabel: string;
   players: PlayerStat[];
+  updatedAt: string | null;
 }
 
 interface Props {
@@ -117,7 +118,15 @@ export function PlayerLeaderboard({
         <span className="font-bebas tracking-widest text-[13px] text-[#1A1A2E] dark:text-white">
           {title}
         </span>
-        <DataUpdatedAt updatedAt={updatedAt} />
+        {groupedPlayers ? (
+          <div className="flex flex-col items-end gap-0.5">
+            {groupedPlayers.map((g) => (
+              <DataUpdatedAt key={g.groupId} label={`Data diperbarui ${g.groupLabel}`} updatedAt={g.updatedAt} />
+            ))}
+          </div>
+        ) : (
+          <DataUpdatedAt updatedAt={updatedAt} />
+        )}
       </div>
 
       {isEmpty ? (
