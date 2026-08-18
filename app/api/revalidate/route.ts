@@ -9,7 +9,7 @@ interface WebhookPayload {
 
 const REVALIDATE_BY_TABLE: Record<string, string[]> = {
   clubs: ["/", "/klub/[slug]", "/liga/[slug]", "/sitemap.xml"],
-  leagues: ["/", "/liga/[slug]"],
+  leagues: ["/", "/liga/[slug]", "/sitemap.xml"],
   seasons: ["/", "/liga/[slug]"],
   matches: ["/liga/[slug]"],
   standings: ["/liga/[slug]"],
@@ -23,7 +23,9 @@ export async function POST(request: NextRequest) {
   }
 
   const payload = (await request.json()) as WebhookPayload;
-  const paths = REVALIDATE_BY_TABLE[payload.table];
+  const paths = Object.hasOwn(REVALIDATE_BY_TABLE, payload.table)
+    ? REVALIDATE_BY_TABLE[payload.table]
+    : undefined;
 
   if (!paths) {
     return NextResponse.json(
