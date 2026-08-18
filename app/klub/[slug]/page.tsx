@@ -5,7 +5,7 @@ import { getAllClubs, getClubById, getLeagueColor } from "@/lib/clubs";
 import { MapPinIcon } from "@/app/components/ui/icons";
 import { ThemeToggleButton } from "@/app/components/ui/ThemeToggleButton";
 
-export const revalidate = 3600;
+export const revalidate = false;
 
 interface Props {
   params: Promise<{ slug: string }>;
