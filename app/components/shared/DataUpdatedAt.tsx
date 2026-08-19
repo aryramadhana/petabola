@@ -4,11 +4,18 @@ interface Props {
 }
 
 export function formatIndonesianDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("id-ID", {
-    day: "numeric",
+  const date = new Date(dateStr);
+  if (Number.isNaN(date.getTime())) return dateStr;
+  const parts = new Intl.DateTimeFormat("id-ID", {
+    day: "2-digit",
     month: "long",
     year: "numeric",
-  });
+    timeZone: "UTC",
+  }).formatToParts(date);
+  const day = parts.find((p) => p.type === "day")?.value ?? "";
+  const month = parts.find((p) => p.type === "month")?.value ?? "";
+  const year = parts.find((p) => p.type === "year")?.value ?? "";
+  return `${day}/${month}/${year}`;
 }
 
 export function DataUpdatedAt({ updatedAt, label = "Data diperbarui" }: Props) {

@@ -3,6 +3,7 @@ import type { Club } from "@/types";
 import { EmptyState } from "@/app/components/shared/EmptyState";
 import { ClubAvatar } from "@/app/components/ui/ClubAvatar";
 import { MapPinIcon } from "@/app/components/ui/icons";
+import { formatIndonesianDate } from "@/app/components/shared/DataUpdatedAt";
 
 interface GroupedMatches {
   groupId: string;
@@ -56,7 +57,7 @@ function WeekGroups({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
                 >
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-[10px] text-[#9EA3AE] dark:text-white/50">
-                      {m.date} · {m.time} WIB
+                      {formatIndonesianDate(m.date)} · {m.time} WIB
                     </span>
                     {past && (
                       <span className="text-[9px] font-medium text-[#9EA3AE] dark:text-white/50 bg-black/5 dark:bg-white/10 rounded-full px-2 py-0.5 whitespace-nowrap flex-shrink-0">
