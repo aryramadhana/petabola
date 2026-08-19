@@ -16,6 +16,22 @@ export function ClubAvatar({ clubId, abbr, league, size = 34 }: Props) {
   const color = getLeagueColor(league);
   const textColor = getLeagueTextColor(league);
 
+  if (!imgError) {
+    return (
+      <img
+        src={`/logos/${clubId}.png`}
+        alt={abbr}
+        style={{
+          width: size,
+          height: size,
+          objectFit: "contain",
+          flexShrink: 0,
+        }}
+        onError={() => setImgError(true)}
+      />
+    );
+  }
+
   return (
     <div
       style={{
@@ -31,23 +47,9 @@ export function ClubAvatar({ clubId, abbr, league, size = 34 }: Props) {
         overflow: "hidden",
       }}
     >
-      {!imgError ? (
-        <img
-          src={`/logos/${clubId}.png`}
-          alt={abbr}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "contain",
-            padding: 2,
-          }}
-          onError={() => setImgError(true)}
-        />
-      ) : (
-        <span style={{ fontSize: size * 0.4, fontWeight: 700, color: textColor }}>
-          {abbr}
-        </span>
-      )}
+      <span style={{ fontSize: size * 0.4, fontWeight: 700, color: textColor }}>
+        {abbr}
+      </span>
     </div>
   );
 }
