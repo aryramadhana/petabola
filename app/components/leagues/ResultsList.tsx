@@ -34,29 +34,33 @@ function ResultRows({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
         const home = getClub(clubs, m.homeClubId);
         const away = getClub(clubs, m.awayClubId);
         return (
-          <div
-            key={m.id}
-            className="p-4 flex items-center justify-between text-[11px] gap-2"
-          >
-            <span className="text-[#9EA3AE] dark:text-white/50 w-28 flex-shrink-0">{formatIndonesianDate(m.date)}</span>
-            <span className="flex-1 flex items-center justify-center gap-2 text-[#1A1A2E] dark:text-white font-medium">
-              <span className="flex items-center gap-1.5 min-w-0">
+          <div key={m.id} className="p-4 flex flex-col gap-2 text-[11px]">
+            <div className="flex items-center justify-between gap-2 text-[#1A1A2E] dark:text-white font-medium">
+              <span className="flex-1 min-w-0 flex items-center gap-1.5">
                 <ClubAvatar clubId={m.homeClubId} abbr={home?.abbr ?? "?"} league={home?.league ?? "Liga 1"} size={20} />
                 <span className="truncate">{home?.name ?? m.homeClubId}</span>
               </span>
-              <span className="font-bold flex-shrink-0">
-                {m.status === "finished"
-                  ? `${m.homeScore} - ${m.awayScore}`
-                  : STATUS_LABEL[m.status]}
-              </span>
-              <span className="flex items-center gap-1.5 min-w-0">
-                <ClubAvatar clubId={m.awayClubId} abbr={away?.abbr ?? "?"} league={away?.league ?? "Liga 1"} size={20} />
+              <span className="flex-1 min-w-0 flex items-center justify-end gap-1.5">
                 <span className="truncate">{away?.name ?? m.awayClubId}</span>
+                <ClubAvatar clubId={m.awayClubId} abbr={away?.abbr ?? "?"} league={away?.league ?? "Liga 1"} size={20} />
               </span>
-            </span>
-            <span className="text-[#9EA3AE] dark:text-white/50 text-[10px] w-14 text-right">
-              Pekan {m.matchweek}
-            </span>
+            </div>
+            <div className="text-center">
+              {m.status === "finished" ? (
+                <span className="text-[15px] font-bold text-[#1A1A2E] dark:text-white">
+                  {m.homeScore} - {m.awayScore}
+                </span>
+              ) : (
+                <span className="font-semibold text-[#9EA3AE] dark:text-white/50">
+                  {STATUS_LABEL[m.status]}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center justify-center gap-1.5 text-[10px] text-[#9EA3AE] dark:text-white/50">
+              <span>{formatIndonesianDate(m.date)}</span>
+              <span>·</span>
+              <span>Pekan {m.matchweek}</span>
+            </div>
           </div>
         );
       })}
