@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { getLeagueColor } from "@/lib/clubs";
+import { getLeagueColor, getLeagueTextColor } from "@/lib/clubs";
 import type { League } from "@/types";
 
 interface Props {
@@ -14,6 +14,7 @@ interface Props {
 export function ClubAvatar({ clubId, abbr, league, size = 34 }: Props) {
   const [imgError, setImgError] = useState(false);
   const color = getLeagueColor(league);
+  const textColor = getLeagueTextColor(league);
 
   return (
     <div
@@ -43,7 +44,7 @@ export function ClubAvatar({ clubId, abbr, league, size = 34 }: Props) {
           onError={() => setImgError(true)}
         />
       ) : (
-        <span style={{ fontSize: size * 0.27, fontWeight: 700, color }}>
+        <span style={{ fontSize: size * 0.4, fontWeight: 700, color: textColor }}>
           {abbr}
         </span>
       )}
