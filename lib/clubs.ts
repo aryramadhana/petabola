@@ -84,15 +84,3 @@ export async function getAllClubs(): Promise<Club[]> {
   }
   return data as Club[];
 }
-
-export async function getClubById(id: string): Promise<Club | null> {
-  const { data, error } = await supabase
-    .from("clubs")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle();
-  if (error) {
-    throw new Error(`Gagal mengambil data klub "${id}" dari Supabase: ${error.message}`);
-  }
-  return data as Club | null;
-}

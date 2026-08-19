@@ -1,3 +1,5 @@
+"use client";
+
 import { FOCUS_RING_ON_DARK } from "./focusRing";
 
 export function Footer() {
