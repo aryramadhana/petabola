@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Match, MatchStatus } from "@/types/match";
 import type { Club } from "@/types";
 import { EmptyState } from "@/app/components/shared/EmptyState";
@@ -40,19 +39,19 @@ function ResultRows({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
           >
             <span className="text-[#9EA3AE] dark:text-white/50 w-20 flex-shrink-0">{m.date}</span>
             <span className="flex-1 flex items-center justify-center gap-2 text-[#1A1A2E] dark:text-white font-medium">
-              <Link href={`/klub/${m.homeClubId}`} className="flex items-center gap-1.5 min-w-0 hover:text-[#CE1126]">
+              <span className="flex items-center gap-1.5 min-w-0">
                 <ClubAvatar clubId={m.homeClubId} abbr={home?.abbr ?? "?"} league={home?.league ?? "Liga 1"} size={20} />
                 <span className="truncate">{home?.name ?? m.homeClubId}</span>
-              </Link>
+              </span>
               <span className="font-bold flex-shrink-0">
                 {m.status === "finished"
                   ? `${m.homeScore} - ${m.awayScore}`
                   : STATUS_LABEL[m.status]}
               </span>
-              <Link href={`/klub/${m.awayClubId}`} className="flex items-center gap-1.5 min-w-0 hover:text-[#CE1126]">
+              <span className="flex items-center gap-1.5 min-w-0">
                 <ClubAvatar clubId={m.awayClubId} abbr={away?.abbr ?? "?"} league={away?.league ?? "Liga 1"} size={20} />
                 <span className="truncate">{away?.name ?? m.awayClubId}</span>
-              </Link>
+              </span>
             </span>
             <span className="text-[#9EA3AE] dark:text-white/50 text-[10px] w-14 text-right">
               Pekan {m.matchweek}

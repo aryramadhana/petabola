@@ -8,7 +8,7 @@ interface WebhookPayload {
 }
 
 const REVALIDATE_BY_TABLE: Record<string, string[]> = {
-  clubs: ["/", "/klub/[slug]", "/liga/[slug]", "/sitemap.xml"],
+  clubs: ["/", "/liga/[slug]"],
   leagues: ["/", "/liga/[slug]", "/sitemap.xml"],
   seasons: ["/", "/liga/[slug]"],
   matches: ["/", "/liga/[slug]"],
