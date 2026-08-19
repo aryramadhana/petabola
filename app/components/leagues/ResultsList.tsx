@@ -2,6 +2,7 @@ import type { Match, MatchStatus } from "@/types/match";
 import type { Club } from "@/types";
 import { EmptyState } from "@/app/components/shared/EmptyState";
 import { ClubAvatar } from "@/app/components/ui/ClubAvatar";
+import { formatIndonesianDate } from "@/app/components/shared/DataUpdatedAt";
 
 interface GroupedMatches {
   groupId: string;
@@ -37,7 +38,7 @@ function ResultRows({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
             key={m.id}
             className="p-4 flex items-center justify-between text-[11px] gap-2"
           >
-            <span className="text-[#9EA3AE] dark:text-white/50 w-20 flex-shrink-0">{m.date}</span>
+            <span className="text-[#9EA3AE] dark:text-white/50 w-20 flex-shrink-0">{formatIndonesianDate(m.date)}</span>
             <span className="flex-1 flex items-center justify-center gap-2 text-[#1A1A2E] dark:text-white font-medium">
               <span className="flex items-center gap-1.5 min-w-0">
                 <ClubAvatar clubId={m.homeClubId} abbr={home?.abbr ?? "?"} league={home?.league ?? "Liga 1"} size={20} />
