@@ -58,14 +58,14 @@ function WeekGroups({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
                   <span className="text-[10px] text-[#9EA3AE] dark:text-white/50">
                     {formatIndonesianDate(m.date)} · {m.time} WIB
                   </span>
-                  <div className="flex items-center justify-between gap-2 text-[11px] font-semibold text-[#1A1A2E] dark:text-white">
+                  <div className="flex items-center justify-between gap-2 text-[13px] font-semibold text-[#1A1A2E] dark:text-white">
                     <div className="flex-1 min-w-0 flex items-center gap-1.5">
-                      <ClubAvatar clubId={m.homeClubId} abbr={home?.abbr ?? "?"} league={home?.league ?? "Liga 1"} size={18} />
+                      <ClubAvatar clubId={m.homeClubId} abbr={home?.abbr ?? "?"} league={home?.league ?? "Liga 1"} size={26} />
                       <span className="truncate">{home?.name ?? m.homeClubId}</span>
                     </div>
                     <div className="flex-1 min-w-0 flex items-center justify-end gap-1.5">
                       <span className="truncate">{away?.name ?? m.awayClubId}</span>
-                      <ClubAvatar clubId={m.awayClubId} abbr={away?.abbr ?? "?"} league={away?.league ?? "Liga 1"} size={18} />
+                      <ClubAvatar clubId={m.awayClubId} abbr={away?.abbr ?? "?"} league={away?.league ?? "Liga 1"} size={26} />
                     </div>
                   </div>
                   <div className="flex flex-col items-center gap-1">

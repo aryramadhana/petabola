@@ -73,9 +73,9 @@ export function StandingsTable({ rows, clubs, updatedAt, title = "KLASEMEN" }: P
                                   clubId={row.clubId}
                                   abbr={club?.abbr ?? "?"}
                                   league={club?.league ?? "Liga 1"}
-                                  size={24}
+                                  size={32}
                                 />
-                                <span className="font-semibold text-[#1A1A2E] dark:text-white truncate">
+                                <span className="text-[13px] font-semibold text-[#1A1A2E] dark:text-white truncate">
                                   {club?.name ?? row.clubId}
                                 </span>
                               </div>
@@ -103,8 +103,8 @@ export function StandingsTable({ rows, clubs, updatedAt, title = "KLASEMEN" }: P
                           </td>
                           <td className="py-2 px-3">
                             <div className="flex items-center gap-2">
-                              <ClubAvatar clubId={club.id} abbr={club.abbr} league={club.league} size={24} />
-                              <span className="font-semibold text-[#1A1A2E] dark:text-white truncate">
+                              <ClubAvatar clubId={club.id} abbr={club.abbr} league={club.league} size={32} />
+                              <span className="text-[13px] font-semibold text-[#1A1A2E] dark:text-white truncate">
                                 {club.name}
                               </span>
                             </div>

@@ -35,14 +35,14 @@ function ResultRows({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
         const away = getClub(clubs, m.awayClubId);
         return (
           <div key={m.id} className="p-4 flex flex-col gap-2 text-[11px]">
-            <div className="flex items-center justify-between gap-2 text-[#1A1A2E] dark:text-white font-medium">
+            <div className="flex items-center justify-between gap-2 text-[13px] text-[#1A1A2E] dark:text-white font-medium">
               <span className="flex-1 min-w-0 flex items-center gap-1.5">
-                <ClubAvatar clubId={m.homeClubId} abbr={home?.abbr ?? "?"} league={home?.league ?? "Liga 1"} size={20} />
+                <ClubAvatar clubId={m.homeClubId} abbr={home?.abbr ?? "?"} league={home?.league ?? "Liga 1"} size={28} />
                 <span className="truncate">{home?.name ?? m.homeClubId}</span>
               </span>
               <span className="flex-1 min-w-0 flex items-center justify-end gap-1.5">
                 <span className="truncate">{away?.name ?? m.awayClubId}</span>
-                <ClubAvatar clubId={m.awayClubId} abbr={away?.abbr ?? "?"} league={away?.league ?? "Liga 1"} size={20} />
+                <ClubAvatar clubId={m.awayClubId} abbr={away?.abbr ?? "?"} league={away?.league ?? "Liga 1"} size={28} />
               </span>
             </div>
             <div className="text-center">

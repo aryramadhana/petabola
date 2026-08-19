@@ -74,10 +74,10 @@ function PlayerGrid({
                 clubId={p.clubId}
                 abbr={club?.abbr ?? "?"}
                 league={club?.league ?? "Liga 1"}
-                size={20}
+                size={28}
               />
             </div>
-            <div className="flex-1 min-w-0 font-semibold text-[#1A1A2E] dark:text-white truncate">
+            <div className="flex-1 min-w-0 text-[13px] font-semibold text-[#1A1A2E] dark:text-white truncate">
               {p.name}
             </div>
             <span className="flex-shrink-0 min-w-[14px] text-right font-bold text-[color:var(--stat-color)] dark:text-[color:var(--stat-color-dark)]">
