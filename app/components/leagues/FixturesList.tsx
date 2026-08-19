@@ -69,7 +69,10 @@ function WeekGroups({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
                     </div>
                   </div>
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-[10px] font-bold text-[#9EA3AE] dark:text-white/50 bg-black/5 dark:bg-white/10 rounded-full px-3 py-1">
+                    <span
+                      className="text-[10px] font-bold text-[#9EA3AE] dark:text-white/50 bg-black/5 dark:bg-white/10 rounded-full px-3 py-1"
+                      aria-label="Lawan"
+                    >
                       VS
                     </span>
                     {past && (

@@ -47,7 +47,10 @@ function ResultRows({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
             </div>
             <div className="text-center">
               {m.status === "finished" ? (
-                <span className="text-[15px] font-bold text-[#1A1A2E] dark:text-white">
+                <span
+                  className="text-[15px] font-bold text-[#1A1A2E] dark:text-white"
+                  aria-label={`${home?.name ?? m.homeClubId} ${m.homeScore}, ${away?.name ?? m.awayClubId} ${m.awayScore}`}
+                >
                   {m.homeScore} - {m.awayScore}
                 </span>
               ) : (
@@ -82,27 +85,29 @@ export function ResultsList({ matches, clubs, groupedMatches }: Props) {
   }
 
   return (
-    <div className="bg-white/80 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-white/70 dark:border-white/10 shadow-soft">
-      {groupedMatches ? (
-        <div className="divide-y divide-[#F3F4F6] dark:divide-white/10">
-          {groupedMatches.map((g) => (
-            <div key={g.groupId}>
-              <div className="px-4 pt-4 pb-1 text-[11px] font-bold text-[#1A1A2E] dark:text-white uppercase tracking-wide">
-                {g.groupLabel}
+    <div className="bg-white/80 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-white/70 dark:border-white/10 shadow-soft overflow-hidden">
+      <div className="max-h-[440px] overflow-y-auto">
+        {groupedMatches ? (
+          <div className="divide-y divide-[#F3F4F6] dark:divide-white/10">
+            {groupedMatches.map((g) => (
+              <div key={g.groupId}>
+                <div className="px-4 pt-4 pb-1 text-[11px] font-bold text-[#1A1A2E] dark:text-white uppercase tracking-wide">
+                  {g.groupLabel}
+                </div>
+                {g.matches.length === 0 ? (
+                  <p className="px-4 pb-4 text-[11px] text-[#9EA3AE] dark:text-white/50">
+                    Belum ada hasil pertandingan yang tersedia untuk grup ini.
+                  </p>
+                ) : (
+                  <ResultRows matches={g.matches} clubs={clubs} />
+                )}
               </div>
-              {g.matches.length === 0 ? (
-                <p className="px-4 pb-4 text-[11px] text-[#9EA3AE] dark:text-white/50">
-                  Belum ada hasil pertandingan yang tersedia untuk grup ini.
-                </p>
-              ) : (
-                <ResultRows matches={g.matches} clubs={clubs} />
-              )}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <ResultRows matches={matches} clubs={clubs} />
-      )}
+            ))}
+          </div>
+        ) : (
+          <ResultRows matches={matches} clubs={clubs} />
+        )}
+      </div>
     </div>
   );
 }
