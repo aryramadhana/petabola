@@ -6,9 +6,12 @@ export function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
         <div className="flex items-center gap-3">
           <img
-            src="/isi/mascot.png"
+            src="/mascot.png"
             alt="Maskot PetaBola"
             className="w-12 h-12 rounded-full flex-shrink-0"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
           />
           <div>
             <div className="font-bebas font-bold text-sm tracking-widest text-white">
