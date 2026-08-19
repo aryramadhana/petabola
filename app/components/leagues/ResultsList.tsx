@@ -21,7 +21,7 @@ function getClub(clubs: Club[], id: string) {
 }
 
 const STATUS_LABEL: Record<MatchStatus, string> = {
-  scheduled: "Berlangsung",
+  scheduled: "Terjadwal",
   postponed: "Ditunda",
   cancelled: "Dibatalkan",
   finished: "Selesai",

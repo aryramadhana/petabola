@@ -22,7 +22,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const payload = (await request.json()) as WebhookPayload;
+  let payload: WebhookPayload;
+  try {
+    payload = (await request.json()) as WebhookPayload;
+  } catch {
+    return NextResponse.json({ error: "Body bukan JSON yang valid" }, { status: 400 });
+  }
+
   const paths = Object.hasOwn(REVALIDATE_BY_TABLE, payload.table)
     ? REVALIDATE_BY_TABLE[payload.table]
     : undefined;
