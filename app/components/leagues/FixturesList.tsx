@@ -53,32 +53,35 @@ function WeekGroups({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
               return (
                 <div
                   key={m.id}
-                  className="rounded-xl border border-[#F3F4F6] dark:border-white/10 bg-white/60 dark:bg-white/[0.03] p-3 flex flex-col gap-1.5"
+                  className="rounded-xl border border-[#F3F4F6] dark:border-white/10 bg-white/60 dark:bg-white/[0.03] p-3 flex flex-col gap-2"
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-[10px] text-[#9EA3AE] dark:text-white/50">
-                      {formatIndonesianDate(m.date)} · {m.time} WIB
+                  <span className="text-[10px] text-[#9EA3AE] dark:text-white/50">
+                    {formatIndonesianDate(m.date)} · {m.time} WIB
+                  </span>
+                  <div className="flex items-center justify-between gap-2 text-[13px] font-semibold text-[#1A1A2E] dark:text-white">
+                    <div className="flex-1 min-w-0 flex items-center gap-1.5">
+                      <ClubAvatar clubId={m.homeClubId} abbr={home?.abbr ?? "?"} league={home?.league ?? "Liga 1"} size={32} />
+                      <span className="truncate">{home?.name ?? m.homeClubId}</span>
+                    </div>
+                    <div className="flex-1 min-w-0 flex items-center justify-end gap-1.5">
+                      <span className="truncate">{away?.name ?? m.awayClubId}</span>
+                      <ClubAvatar clubId={m.awayClubId} abbr={away?.abbr ?? "?"} league={away?.league ?? "Liga 1"} size={32} />
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <span
+                      className="text-[10px] font-bold text-[#9EA3AE] dark:text-white/50 bg-black/5 dark:bg-white/10 rounded-full px-3 py-1"
+                      aria-label="Lawan"
+                    >
+                      VS
                     </span>
                     {past && (
-                      <span className="text-[9px] font-medium text-[#9EA3AE] dark:text-white/50 bg-black/5 dark:bg-white/10 rounded-full px-2 py-0.5 whitespace-nowrap flex-shrink-0">
+                      <span className="text-[9px] font-medium text-[#9EA3AE] dark:text-white/50">
                         Menunggu update hasil
                       </span>
                     )}
                   </div>
-                  <div className="text-[11px] font-semibold text-[#1A1A2E] dark:text-white flex flex-col gap-1">
-                    <div className="flex items-center gap-1.5 min-w-0">
-                      <ClubAvatar clubId={m.homeClubId} abbr={home?.abbr ?? "?"} league={home?.league ?? "Liga 1"} size={18} />
-                      <span className="truncate">{home?.name ?? m.homeClubId}</span>
-                    </div>
-                    <div className="text-[9px] font-normal text-[#9EA3AE] dark:text-white/50 pl-[3px]">
-                      vs
-                    </div>
-                    <div className="flex items-center gap-1.5 min-w-0">
-                      <ClubAvatar clubId={m.awayClubId} abbr={away?.abbr ?? "?"} league={away?.league ?? "Liga 1"} size={18} />
-                      <span className="truncate">{away?.name ?? m.awayClubId}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1 text-[10px] text-[#9EA3AE] dark:text-white/50 mt-auto pt-1">
+                  <div className="flex items-center justify-center gap-1 text-[10px] text-[#9EA3AE] dark:text-white/50 mt-auto pt-1">
                     <MapPinIcon className="w-2.5 h-2.5 flex-shrink-0" />
                     <span className="truncate">{m.stadium ?? "—"}</span>
                   </div>
