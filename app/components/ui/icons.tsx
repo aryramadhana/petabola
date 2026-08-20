@@ -48,6 +48,24 @@ export function MoonIcon({ className = "w-3.5 h-3.5" }: IconProps) {
   );
 }
 
+export function BallIcon({ className = "w-4 h-4" }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+      <circle cx="12" cy="12" r="11" opacity="0.15" />
+      <circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" strokeWidth="0.75" opacity="0.4" />
+      <path d="M12 7.3l3.6 2.6-1.4 4.2h-4.4l-1.4-4.2L12 7.3z" opacity="0.5" />
+      <path
+        d="M12 1v3.3M12 20.7V23M1 12h3.3M20.7 12H23M4.5 4.5l2.3 2.3M17.2 17.2l2.3 2.3M4.5 19.5l2.3-2.3M17.2 6.8l2.3-2.3M8.8 9.9L6.5 7.6M15.2 9.9l2.3-2.3M8.8 14.1l-2.3 2.3M15.2 14.1l2.3 2.3"
+        stroke="currentColor"
+        strokeWidth="0.75"
+        strokeLinecap="round"
+        fill="none"
+        opacity="0.35"
+      />
+    </svg>
+  );
+}
+
 export function TargetIcon({ className = "w-4 h-4" }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={2}>

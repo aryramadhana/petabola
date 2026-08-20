@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getAllLeagues, getLeagueById, getLeagueDisplayName, getLeagueGroups } from "@/lib/leagues";
+import { getAllLeagues, getLeagueById, getLeagueDisplayName, getLeagueGroups, getLeagueLogo } from "@/lib/leagues";
 import { getAllSeasons, getActiveSeasonForLeague } from "@/lib/seasons";
 import { getAllClubs, getClubsByLeagueName, getLeagueColor, getLeagueTextColor, getLeagueTextColorDark } from "@/lib/clubs";
 import { getStandings, getSortedStandingsRows } from "@/lib/standings";
@@ -17,6 +17,7 @@ import { GroupStandingsTabs } from "@/app/components/leagues/GroupStandingsTabs"
 import { MatchesTabs } from "@/app/components/leagues/MatchesTabs";
 import { PlayerStatsTabs } from "@/app/components/leagues/PlayerStatsTabs";
 import { Footer } from "@/app/components/ui/Footer";
+import { BallIcon } from "@/app/components/ui/icons";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -46,6 +47,7 @@ export default async function LeagueDetailPage({ params }: Props) {
   const color = getLeagueColor(league.name);
   const textColor = getLeagueTextColor(league.name);
   const textColorDark = getLeagueTextColorDark(league.name);
+  const logo = getLeagueLogo(league.id);
   const groups = getLeagueGroups(league);
 
   // Non-grouped path (Liga 1/3 today): unchanged single fetch. For a
@@ -131,38 +133,54 @@ export default async function LeagueDetailPage({ params }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:h-[560px]">
           <section id="ringkasan" className="scroll-mt-24 flex flex-col gap-4 lg:h-full lg:min-h-0">
             <div
-              className="flex-shrink-0 rounded-2xl overflow-hidden border border-[#EAECF0] dark:border-white/10 shadow-sm px-6 py-8 sm:px-8 sm:py-10"
+              className="relative flex-shrink-0 rounded-2xl overflow-hidden border border-[#EAECF0] dark:border-white/10 shadow-sm px-6 py-8 sm:px-8 sm:py-10"
               style={{ background: `linear-gradient(135deg, ${color}, ${color}BB)` }}
             >
-              <h1 className="text-white font-bebas font-bold text-3xl sm:text-4xl tracking-widest">
-                {getLeagueDisplayName(league.name)}
-              </h1>
-              <p className="text-white/80 text-sm sm:text-base mt-1">{league.description}</p>
-              <div className="flex gap-6 mt-4 sm:mt-6">
-                <div>
-                  <div className="font-bebas text-xl sm:text-2xl text-white">
-                    {leagueClubs.length}
-                  </div>
-                  <div className="text-[10px] text-white/70 uppercase tracking-wide">
-                    Klub
+              <BallIcon className="absolute -right-8 -bottom-12 w-56 h-56 sm:w-64 sm:h-64 text-white/10 pointer-events-none select-none" />
+
+              <div className="relative z-10 flex items-start justify-between gap-4">
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-white font-bebas font-bold text-3xl sm:text-4xl tracking-widest">
+                    {getLeagueDisplayName(league.name)}
+                  </h1>
+                  <p className="text-white/80 text-sm sm:text-base mt-1">{league.description}</p>
+                  <div className="flex gap-6 mt-4 sm:mt-6">
+                    <div>
+                      <div className="font-bebas text-xl sm:text-2xl text-white">
+                        {leagueClubs.length}
+                      </div>
+                      <div className="text-[10px] text-white/70 uppercase tracking-wide">
+                        Klub
+                      </div>
+                    </div>
+                    <div>
+                      <div className="font-bebas text-xl sm:text-2xl text-white">
+                        Level {league.level}
+                      </div>
+                      <div className="text-[10px] text-white/70 uppercase tracking-wide">
+                        Kasta
+                      </div>
+                    </div>
+                    {season && (
+                      <div>
+                        <div className="font-bebas text-xl sm:text-2xl text-white">
+                          {season.name}
+                        </div>
+                        <div className="text-[10px] text-white/70 uppercase tracking-wide">
+                          Musim Aktif
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div>
-                  <div className="font-bebas text-xl sm:text-2xl text-white">
-                    Level {league.level}
-                  </div>
-                  <div className="text-[10px] text-white/70 uppercase tracking-wide">
-                    Kasta
-                  </div>
-                </div>
-                {season && (
-                  <div>
-                    <div className="font-bebas text-xl sm:text-2xl text-white">
-                      {season.name}
-                    </div>
-                    <div className="text-[10px] text-white/70 uppercase tracking-wide">
-                      Musim Aktif
-                    </div>
+
+                {logo && (
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-white shadow-sm flex items-center justify-center p-2.5 sm:p-3 flex-shrink-0">
+                    <img
+                      src={logo}
+                      alt={`Logo ${league.name}`}
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                 )}
               </div>
