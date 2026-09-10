@@ -50,13 +50,33 @@ export function MapView({
 
       const map = L.map(containerRef.current, {
         zoomControl: true,
-        attributionControl: false,
+        attributionControl: true,
         preferCanvas: false,
       }).setView([-2.5, 118], 5);
 
+      // Esri's Light Gray Canvas splits basemap and labels into two services,
+      // so both are stacked here (base first, city labels on top). Note the
+      // tile path is {z}/{y}/{x} — the reverse of the usual XYZ order — and
+      // there's no {s} subdomain placeholder.
+      //
+      // Esri only has canvas data down to z16; deeper zooms return a
+      // "Map data not yet available" placeholder tile. maxNativeZoom stops
+      // requests at 16 and lets Leaflet upscale those tiles for z17-18, so
+      // the zoom range stays as it was, just slightly soft at the deepest end.
+      const ESRI_TILE_OPTS = { maxNativeZoom: 16, maxZoom: 18 };
+
       L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-        { maxZoom: 18, subdomains: "abcd" }
+        "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+        {
+          ...ESRI_TILE_OPTS,
+          attribution:
+            '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin, &copy; OpenStreetMap contributors',
+        }
+      ).addTo(map);
+
+      L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
+        ESRI_TILE_OPTS
       ).addTo(map);
 
       mapRef.current = map;
