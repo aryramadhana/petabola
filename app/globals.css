@@ -19,6 +19,28 @@
   font-family: var(--font-pjs) !important;
 }
 
+/* Tile attribution is required by Esri's terms, so it stays visible — but
+   toned down to sit quietly in the corner. No dark: variant: the map (tiles
+   and pins) is deliberately always light. */
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(4px);
+  color: #9EA3AE !important;
+  font-size: 9px !important;
+  line-height: 1.4;
+  padding: 1px 6px !important;
+  border-radius: 6px 0 0 0;
+}
+.leaflet-control-attribution a {
+  color: #9EA3AE !important;
+  text-decoration: none;
+}
+.leaflet-control-attribution a:hover,
+.leaflet-control-attribution a:focus-visible {
+  color: #1A1A2E !important;
+  text-decoration: underline;
+}
+
 /* Marker hover/tap feedback */
 .petabola-marker {
   transform-origin: bottom center;
