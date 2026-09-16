@@ -1,96 +1,43 @@
-# PetaBola ⚽
+# PetaBola
 
-Aplikasi web persebaran klub sepak bola Indonesia — Liga 1, Liga 2, Liga 3.
+Direktori klub sepak bola Indonesia yang berbasis peta menjelajahi berdasarkan lokasi, liga, kota, dan provinsi.
+
+**Demo:** https://petabola.vercel.app
+
+> Proyek portofolio pribadi. Repositori ini dipublikasikan untuk dibaca dan ditinjau, bukan untuk digunakan ulang — lihat [Hak Cipta](#hak-cipta).
+
+## Masalah
+
+Informasi klub sepak bola Indonesia tersebar di banyak tempat dan hampir selalu disajikan sebagai daftar teks. Padahal pertanyaan yang sering muncul justru bersifat geografis: klub apa saja yang ada di provinsi saya, klub ini bermarkas di kota mana. PetaBola menjawabnya dengan menjadikan peta sebagai pintu masuk utama, bukan sekadar hiasan.
+
+## Fitur
+
+- **Peta interaktif** — setiap klub menjadi pin berwarna sesuai tingkat liganya, bebas di-zoom dan digeser ke seluruh Peta.
+- **Panel detail klub** — panel yang muncul dari sisi peta saat sebuah klub dipilih, dan berubah menjadi bottom sheet di layar kecil.
+- **Filter dan pencarian** — filter berdasarkan liga, atau cari lewat nama, singkatan, kota, provinsi, julukan, hingga nama kelompok suporter.
+- **Halaman liga** — klasemen, jadwal, hasil, serta daftar top skor dan top assist per musim.
+- **Mode gelap** — mengikuti preferensi sistem, dengan palet aksen yang ikut berganti identitas.
+
+<!-- ## Arsitektur
+
+Next.js App Router dengan pemisahan server/klien yang tegas:
+
+- **Server Component** mengambil data di sisi server, lalu menyerahkannya ke satu orchestrator klien yang memegang seluruh state interaksi peta — komponen peta sendiri dimuat client-only karena Leaflet menyentuh `window`.
+- **Lapisan akses data dipecah per domain** di `lib/` (klub, liga, musim, pertandingan, klasemen, statistik pemain), sehingga tiap halaman hanya menarik yang benar-benar dibutuhkannya.
+- **Kesegaran data memakai on-demand revalidation murni** — halaman di-cache tanpa batas waktu, lalu sebuah webhook basis data memicu revalidasi hanya ketika tabel terkait benar-benar berubah.
+- **Beranda adalah satu halaman** dengan tiga seksi ber-anchor (Beranda, Liga, Tentang); hanya halaman detail liga yang berdiri sebagai rute terpisah. -->
+
 
 ## Stack
-- **Next.js 15** (App Router + Turbopack)
-- **TypeScript** (strict)
-- **Tailwind CSS v4**
-- **Leaflet** untuk peta interaktif
-- **Supabase** (siap diintegrasikan — lihat `lib/supabase.ts`)
 
-## Struktur Folder
+Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS v3 · Leaflet · Supabase (PostgreSQL + RLS) · next-themes · Vercel
 
-```
-petabola/
-├── app/
-│   ├── page.tsx              # Homepage (peta utama)
-│   ├── MapApp.tsx            # Client orchestrator
-│   ├── layout.tsx            # Root layout + fonts
-│   ├── globals.css           # Tailwind + overrides
-│   ├── api/clubs/route.ts    # API endpoint clubs
-│   ├── klub/
-│   │   ├── page.tsx          # Listing semua klub
-│   │   └── [slug]/page.tsx   # Detail klub
-│   └── components/
-│       ├── map/
-│       │   └── MapView.tsx   # Leaflet map (client-only)
-│       └── ui/
-│           ├── Header.tsx    # Header + search
-│           ├── Sidebar.tsx   # Desktop sidebar
-│           ├── MobileDrawer.tsx # Mobile bottom sheet
-│           ├── LeagueBadge.tsx
-│           └── ClubAvatar.tsx
-├── data/
-│   └── clubs.json            # ← Edit file ini untuk tambah/ubah klub
-├── lib/
-│   ├── clubs.ts              # Helper & filter functions
-│   └── supabase.ts           # Supabase client
-└── types/
-    └── index.ts              # TypeScript types
-```
+## Status
 
-## Quick Start
+MVP publik dan sudah live. Data diperbarui secara manual dan berkala — tanpa skor langsung, tanpa konten editorial, dan bukan situs resmi liga mana pun. Sebagian dataset, terutama klasemen dan sebagian jadwal, masih menunggu sumber yang dapat diverifikasi dan sampai saat itu tampil sebagai empty state.
 
-```bash
-# 1. Install dependencies
-npm install
+## Hak Cipta
 
-# 2. Setup environment (opsional, untuk Supabase)
-cp .env.local.example .env.local
-# isi NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_ANON_KEY
+Copyright © 2026 Hary R Nasution. Seluruh hak dilindungi.
 
-# 3. Jalankan development server
-npm run dev
-
-# 4. Buka http://localhost:3000
-```
-
-## Menambah Klub Baru
-
-Edit `data/clubs.json` dan tambahkan objek baru:
-
-```json
-{
-  "id": "nama-klub-slug",
-  "name": "Nama Klub FC",
-  "abbr": "NKF",
-  "city": "Kota",
-  "province": "Provinsi",
-  "region": "Jawa",          // Jawa | Sumatra | Kalimantan | Sulawesi | Bali & Nusa Tenggara | Papua & Maluku
-  "stadium": "Nama Stadion",
-  "stadiumCapacity": 20000,
-  "founded": 1990,
-  "nickname": "Julukan Klub",
-  "supporters": "Nama Suporter",
-  "league": "Liga 1",        // Liga 1 | Liga 2 | Liga 3
-  "lat": -6.2183,
-  "lng": 106.8027
-}
-```
-
-## Migrasi ke Supabase
-
-1. Buat project di [supabase.com](https://supabase.com)
-2. Buat tabel `clubs` dengan kolom sesuai `types/index.ts`
-3. Import data dari `data/clubs.json`
-4. Uncomment kode Supabase di `app/api/clubs/route.ts`
-5. Isi `.env.local` dengan credentials
-
-## Deploy ke Vercel
-
-```bash
-npx vercel --prod
-```
-
-Atau connect repo ke [vercel.com](https://vercel.com) untuk auto-deploy.
+Repositori ini **publik untuk dibaca, bukan open source**. Kode dan desainnya boleh ditinjau untuk keperluan penilaian portofolio, tetapi tidak untuk disalin, dimodifikasi, di-deploy ulang, atau dijadikan dasar proyek lain tanpa izin tertulis. Selengkapnya di [`LICENSE`](LICENSE).
