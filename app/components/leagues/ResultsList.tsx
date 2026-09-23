@@ -1,7 +1,8 @@
-import type { Match, MatchStatus } from "@/types/match";
+import type { Match, MatchGoal, MatchStatus } from "@/types/match";
 import type { Club } from "@/types";
 import { EmptyState } from "@/app/components/shared/EmptyState";
 import { ClubAvatar } from "@/app/components/ui/ClubAvatar";
+import { BallIcon, UserGroupIcon } from "@/app/components/ui/icons";
 import { formatIndonesianDate } from "@/app/components/shared/DataUpdatedAt";
 
 interface GroupedMatches {
@@ -26,6 +27,48 @@ const STATUS_LABEL: Record<MatchStatus, string> = {
   cancelled: "Dibatalkan",
   finished: "Selesai",
 };
+
+function formatGoalMinute(g: MatchGoal) {
+  const minute = g.addedTime ? `${g.minute}+${g.addedTime}'` : `${g.minute}'`;
+  if (g.penalty) return `${minute} (P)`;
+  if (g.ownGoal) return `${minute} (GBD)`;
+  return minute;
+}
+
+// One line per scorer, in order of their first goal: "Mitkov 54', 90+1'".
+function groupByScorer(goals: MatchGoal[]) {
+  const sorted = [...goals].sort(
+    (a, b) => a.minute - b.minute || (a.addedTime ?? 0) - (b.addedTime ?? 0)
+  );
+  const byPlayer = new Map<string, string[]>();
+  for (const g of sorted) {
+    const minutes = byPlayer.get(g.player) ?? [];
+    minutes.push(formatGoalMinute(g));
+    byPlayer.set(g.player, minutes);
+  }
+  return [...byPlayer.entries()].map(([player, minutes]) => ({ player, minutes: minutes.join(", ") }));
+}
+
+function ScorerList({ goals, align }: { goals: MatchGoal[]; align: "left" | "right" }) {
+  return (
+    <ul className={`flex-1 min-w-0 flex flex-col gap-0.5 ${align === "right" ? "items-end text-right" : "items-start"}`}>
+      {groupByScorer(goals).map(({ player, minutes }) => (
+        <li key={player} className={`flex items-start gap-1 ${align === "right" ? "flex-row-reverse" : ""}`}>
+          <BallIcon className="w-3 h-3 mt-px flex-shrink-0" />
+          <span>
+            {player} <span className="whitespace-nowrap">{minutes}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function formatAttendance(attendance: number) {
+  return attendance === 0
+    ? "Tanpa penonton"
+    : `${attendance.toLocaleString("id-ID")} penonton`;
+}
 
 function ResultRows({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
   return (
@@ -59,11 +102,26 @@ function ResultRows({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
                 </span>
               )}
             </div>
+            {m.status === "finished" && m.goals && m.goals.length > 0 && (
+              <div
+                className="flex items-start justify-between gap-3 text-[11px] text-[#44474c] dark:text-white/70"
+                aria-label="Pencetak gol"
+              >
+                <ScorerList goals={m.goals.filter((g) => g.clubId === m.homeClubId)} align="left" />
+                <ScorerList goals={m.goals.filter((g) => g.clubId === m.awayClubId)} align="right" />
+              </div>
+            )}
             <div className="flex items-center justify-center gap-1.5 text-[10px] text-[#9EA3AE] dark:text-white/50">
               <span>{formatIndonesianDate(m.date)}</span>
               <span>·</span>
               <span>Pekan {m.matchweek}</span>
             </div>
+            {m.status === "finished" && m.attendance != null && (
+              <div className="flex items-center justify-center gap-1 text-[10px] text-[#9EA3AE] dark:text-white/50">
+                <UserGroupIcon className="w-3 h-3" />
+                <span>{formatAttendance(m.attendance)}</span>
+              </div>
+            )}
           </div>
         );
       })}
