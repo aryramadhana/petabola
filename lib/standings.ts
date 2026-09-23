@@ -1,10 +1,17 @@
 import { supabase } from "@/lib/supabase";
-import type { StandingsData, StandingsRow } from "@/types/standing";
+import { getMatchesData } from "@/lib/matches";
+import { computeStandings } from "@/lib/standings-calc";
+import type { PointAdjustment, StandingsData, StandingsRow } from "@/types/standing";
 
 function rowId(leagueId: string, groupId?: string): string {
   return groupId ? `${leagueId}-${groupId}` : leagueId;
 }
 
+/**
+ * The `standings` row is no longer the table itself — it is the manual
+ * adjustment layer sitting on top of the computed one (points deductions and
+ * the like). Its `rows` column is unread; see lib/standings-calc.ts.
+ */
 export async function getStandings(leagueId: string, groupId?: string): Promise<StandingsData | undefined> {
   const id = rowId(leagueId, groupId);
   const { data, error } = await supabase
@@ -19,12 +26,28 @@ export async function getStandings(leagueId: string, groupId?: string): Promise<
   return {
     seasonId: data.seasonId,
     updatedAt: data.updatedAt,
-    rows: data.rows as StandingsRow[],
+    adjustments: (data.adjustments ?? []) as PointAdjustment[],
   };
 }
 
-export async function getSortedStandingsRows(leagueId: string, groupId?: string): Promise<StandingsRow[]> {
-  const data = await getStandings(leagueId, groupId);
-  if (!data) return [];
-  return [...data.rows].sort((a, b) => a.position - b.position);
+/**
+ * Build a league['s group] table from its match results.
+ *
+ * `clubIds` comes from the caller because the page has already fetched and
+ * group-filtered the club list; refetching it here would duplicate a query.
+ */
+export async function getStandingsRows(
+  leagueId: string,
+  clubIds: string[],
+  groupId?: string
+): Promise<StandingsRow[]> {
+  const [matchesData, standingsData] = await Promise.all([
+    getMatchesData(leagueId, groupId),
+    getStandings(leagueId, groupId),
+  ]);
+  return computeStandings(
+    matchesData?.matches ?? [],
+    clubIds,
+    standingsData?.adjustments ?? []
+  );
 }

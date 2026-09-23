@@ -23,14 +23,18 @@ export async function getPlayerStatsData(leagueId: string, groupId?: string): Pr
   };
 }
 
-export async function getTopScorers(leagueId: string, limit = 10, groupId?: string): Promise<PlayerStat[]> {
-  const data = await getPlayerStatsData(leagueId, groupId);
-  if (!data) return [];
-  return [...data.players].sort((a, b) => b.goals - a.goals).slice(0, limit);
-}
-
+/**
+ * Assist chart, still hand-entered via the `player_stats` table — match data
+ * records scorers only, so this one cannot be derived. Players whose assist
+ * count is unknown are left out rather than ranked as zero.
+ *
+ * The scoring chart is derived instead; see lib/player-stats-calc.ts.
+ */
 export async function getTopAssists(leagueId: string, limit = 10, groupId?: string): Promise<PlayerStat[]> {
   const data = await getPlayerStatsData(leagueId, groupId);
   if (!data) return [];
-  return [...data.players].sort((a, b) => b.assists - a.assists).slice(0, limit);
+  return data.players
+    .filter((p) => p.assists !== null)
+    .sort((a, b) => b.assists! - a.assists!)
+    .slice(0, limit);
 }

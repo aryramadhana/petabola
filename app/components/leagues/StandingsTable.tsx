@@ -24,7 +24,10 @@ export function StandingsTable({ rows, clubs, updatedAt, title = "KLASEMEN" }: P
         <span className="font-bebas tracking-widest text-[13px] text-[#1A1A2E] dark:text-white">
           {title}
         </span>
-        <DataUpdatedAt updatedAt={updatedAt} />
+        {/* The table is derived from match results, so its freshness is the
+            freshness of those results — say so rather than implying someone
+            entered a standings table on this date. */}
+        <DataUpdatedAt updatedAt={updatedAt} label="Dihitung dari hasil per" />
       </div>
 
       {!hasStats && clubs.length === 0 ? (

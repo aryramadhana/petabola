@@ -81,7 +81,7 @@ function PlayerGrid({
               {p.name}
             </div>
             <span className="flex-shrink-0 min-w-[14px] text-right font-bold text-[color:var(--stat-color)] dark:text-[color:var(--stat-color-dark)]">
-              {p[statKey]}
+              {p[statKey] ?? "–"}
             </span>
           </div>
         );

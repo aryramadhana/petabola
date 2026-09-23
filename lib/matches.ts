@@ -23,18 +23,25 @@ export async function getMatchesData(leagueId: string, groupId?: string): Promis
   };
 }
 
-export async function getFixtures(leagueId: string, groupId?: string): Promise<Match[]> {
-  const data = await getMatchesData(leagueId, groupId);
-  if (!data) return [];
-  return data.matches
+// Synchronous selectors over an already-fetched match list, following the same
+// split as getActiveSeasonForLeague()/getLeagueGroups(). They used to fetch the
+// row themselves, which meant one league page issued the same query three or
+// four times over — and standings now need the same blob again. Fetch
+// getMatchesData() once per league[-group] and feed both of these from it.
+
+export function getFixtures(matches: Match[]): Match[] {
+  return matches
     .filter((m) => m.status === "scheduled")
     .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 }
 
-export async function getResults(leagueId: string, groupId?: string): Promise<Match[]> {
-  const data = await getMatchesData(leagueId, groupId);
-  if (!data) return [];
-  return data.matches
+/**
+ * Everything that is no longer upcoming. Note this deliberately includes
+ * `postponed`/`cancelled`, which have no result to show — standings must
+ * filter for `finished` themselves rather than reuse this.
+ */
+export function getResults(matches: Match[]): Match[] {
+  return matches
     .filter(
       (m) =>
         m.status === "finished" ||

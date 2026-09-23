@@ -3,13 +3,10 @@ import Link from "next/link";
 import { getAllLeagues, getLeagueById, getLeagueDisplayName, getLeagueGroups, getLeagueLogo } from "@/lib/leagues";
 import { getAllSeasons, getActiveSeasonForLeague } from "@/lib/seasons";
 import { getAllClubs, getClubsByLeagueName, getLeagueColor, getLeagueTextColor, getLeagueTextColorDark } from "@/lib/clubs";
-import { getStandings, getSortedStandingsRows } from "@/lib/standings";
+import { getStandingsRows } from "@/lib/standings";
 import { getMatchesData, getFixtures, getResults } from "@/lib/matches";
-import {
-  getPlayerStatsData,
-  getTopScorers,
-  getTopAssists,
-} from "@/lib/player-stats";
+import { computeTopScorers } from "@/lib/player-stats-calc";
+import { getPlayerStatsData, getTopAssists } from "@/lib/player-stats";
 import { ThemeToggleButton } from "@/app/components/ui/ThemeToggleButton";
 import { LeagueSubNav } from "@/app/components/leagues/LeagueSubNav";
 import { StandingsTable } from "@/app/components/leagues/StandingsTable";
@@ -50,53 +47,68 @@ export default async function LeagueDetailPage({ params }: Props) {
   const logo = getLeagueLogo(league.id);
   const groups = getLeagueGroups(league);
 
-  // Non-grouped path (Liga 1/3 today): unchanged single fetch. For a
-  // grouped league these simply resolve to undefined/[] (the flat
-  // "liga-2" key no longer exists), which is harmless since the grouped
-  // branch below never reads them.
-  const standingsData = await getStandings(league.id);
-  const standingsRows = await getSortedStandingsRows(league.id);
+  // Non-grouped path (Liga 1/3 today): one matches fetch, shared by fixtures,
+  // results, the standings table and the scoring chart — all four are derived
+  // from the same blob now. For a grouped league this resolves to undefined
+  // (the flat "liga-2" key no longer exists), which is harmless since the
+  // grouped branch below never reads it.
   const matchesData = await getMatchesData(league.id);
-  const fixtures = await getFixtures(league.id);
-  const results = await getResults(league.id);
+  const leagueMatches = matchesData?.matches ?? [];
+  const fixtures = getFixtures(leagueMatches);
+  const results = getResults(leagueMatches);
+  const topScorers = computeTopScorers(leagueMatches, 20);
+  const standingsRows = await getStandingsRows(
+    league.id,
+    leagueClubs.map((c) => c.id)
+  );
+  // The assist chart is the one player statistic match data cannot produce, so
+  // it still comes from the hand-entered player_stats table, with its own date.
   const playerStatsData = await getPlayerStatsData(league.id);
-  const topScorers = await getTopScorers(league.id, 20);
   const topAssists = await getTopAssists(league.id, 20);
 
-  // Grouped path (Liga 2 today): one fetch per group.
-  const groupStandings = await Promise.all(
+  // Standings and the scoring chart are computed from match results, so their
+  // freshness is the freshness of those results — not a separate entry date.
+  const derivedUpdatedAt = matchesData?.updatedAt ?? null;
+
+  // Grouped path (Liga 2 today): one fetch per group, same sharing.
+  const groupMatches = await Promise.all(
     groups.map(async (g) => ({
-      id: g.id,
-      label: g.label,
-      rows: await getSortedStandingsRows(league.id, g.id),
+      group: g,
       clubs: leagueClubs.filter((c) => c.group === g.id),
-      updatedAt: (await getStandings(league.id, g.id))?.updatedAt ?? null,
+      data: await getMatchesData(league.id, g.id),
     }))
   );
-  const groupedFixtures = await Promise.all(
-    groups.map(async (g) => ({
-      groupId: g.id,
-      groupLabel: g.label,
-      matches: await getFixtures(league.id, g.id),
-      updatedAt: (await getMatchesData(league.id, g.id))?.updatedAt ?? null,
+  const groupStandings = await Promise.all(
+    groupMatches.map(async ({ group, clubs, data }) => ({
+      id: group.id,
+      label: group.label,
+      rows: await getStandingsRows(
+        league.id,
+        clubs.map((c) => c.id),
+        group.id
+      ),
+      clubs,
+      updatedAt: data?.updatedAt ?? null,
     }))
   );
-  const groupedResults = await Promise.all(
-    groups.map(async (g) => ({
-      groupId: g.id,
-      groupLabel: g.label,
-      matches: await getResults(league.id, g.id),
-      updatedAt: (await getMatchesData(league.id, g.id))?.updatedAt ?? null,
-    }))
-  );
-  const groupedTopScorers = await Promise.all(
-    groups.map(async (g) => ({
-      groupId: g.id,
-      groupLabel: g.label,
-      players: await getTopScorers(league.id, 20, g.id),
-      updatedAt: (await getPlayerStatsData(league.id, g.id))?.updatedAt ?? null,
-    }))
-  );
+  const groupedFixtures = groupMatches.map(({ group, data }) => ({
+    groupId: group.id,
+    groupLabel: group.label,
+    matches: getFixtures(data?.matches ?? []),
+    updatedAt: data?.updatedAt ?? null,
+  }));
+  const groupedResults = groupMatches.map(({ group, data }) => ({
+    groupId: group.id,
+    groupLabel: group.label,
+    matches: getResults(data?.matches ?? []),
+    updatedAt: data?.updatedAt ?? null,
+  }));
+  const groupedTopScorers = groupMatches.map(({ group, data }) => ({
+    groupId: group.id,
+    groupLabel: group.label,
+    players: computeTopScorers(data?.matches ?? [], 20),
+    updatedAt: data?.updatedAt ?? null,
+  }));
   const groupedTopAssists = await Promise.all(
     groups.map(async (g) => ({
       groupId: g.id,
@@ -194,7 +206,8 @@ export default async function LeagueDetailPage({ params }: Props) {
                 color={color}
                 textColor={textColor}
                 textColorDark={textColorDark}
-                updatedAt={playerStatsData?.updatedAt ?? null}
+                scorersUpdatedAt={derivedUpdatedAt}
+                assistsUpdatedAt={playerStatsData?.updatedAt ?? null}
                 groupedTopScorers={groups.length > 0 ? groupedTopScorers : undefined}
                 groupedTopAssists={groups.length > 0 ? groupedTopAssists : undefined}
               />
@@ -208,7 +221,7 @@ export default async function LeagueDetailPage({ params }: Props) {
               <StandingsTable
                 rows={standingsRows}
                 clubs={leagueClubs}
-                updatedAt={standingsData?.updatedAt ?? null}
+                updatedAt={derivedUpdatedAt}
               />
             )}
           </section>

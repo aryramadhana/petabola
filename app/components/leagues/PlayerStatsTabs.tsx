@@ -20,7 +20,12 @@ interface Props {
   color: string;
   textColor: string;
   textColorDark: string;
-  updatedAt: string | null;
+  // Two dates, not one: the scoring chart is derived from match results while
+  // the assist chart is still hand-entered, so they go stale independently.
+  // Same reasoning as the per-group dates elsewhere on this page — one shared
+  // date would let the fresher half vouch for the staler one.
+  scorersUpdatedAt: string | null;
+  assistsUpdatedAt: string | null;
   groupedTopScorers?: GroupedPlayers[];
   groupedTopAssists?: GroupedPlayers[];
 }
@@ -53,7 +58,8 @@ export function PlayerStatsTabs({
   color,
   textColor,
   textColorDark,
-  updatedAt,
+  scorersUpdatedAt,
+  assistsUpdatedAt,
   groupedTopScorers,
   groupedTopAssists,
 }: Props) {
@@ -96,11 +102,11 @@ export function PlayerStatsTabs({
 
       {active === "skor" ? (
         <div id="panel-skor" role="tabpanel" aria-labelledby="tab-skor" className="flex-1 min-h-0 flex flex-col">
-          <PlayerLeaderboard title="TOP SKOR" players={topScorers} clubs={clubs} statKey="goals" updatedAt={updatedAt} textColor={textColor} textColorDark={textColorDark} groupedPlayers={groupedTopScorers} />
+          <PlayerLeaderboard title="TOP SKOR" players={topScorers} clubs={clubs} statKey="goals" updatedAt={scorersUpdatedAt} textColor={textColor} textColorDark={textColorDark} groupedPlayers={groupedTopScorers} />
         </div>
       ) : (
         <div id="panel-assist" role="tabpanel" aria-labelledby="tab-assist" className="flex-1 min-h-0 flex flex-col">
-          <PlayerLeaderboard title="TOP ASSIST" players={topAssists} clubs={clubs} statKey="assists" updatedAt={updatedAt} textColor={textColor} textColorDark={textColorDark} groupedPlayers={groupedTopAssists} />
+          <PlayerLeaderboard title="TOP ASSIST" players={topAssists} clubs={clubs} statKey="assists" updatedAt={assistsUpdatedAt} textColor={textColor} textColorDark={textColorDark} groupedPlayers={groupedTopAssists} />
         </div>
       )}
     </div>
