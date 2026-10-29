@@ -54,7 +54,7 @@ function ScorerList({ goals, align }: { goals: MatchGoal[]; align: "left" | "rig
     <ul className={`flex-1 min-w-0 flex flex-col gap-0.5 ${align === "right" ? "items-end text-right" : "items-start"}`}>
       {groupByScorer(goals).map(({ player, minutes }) => (
         <li key={player} className={`flex items-start gap-1 ${align === "right" ? "flex-row-reverse" : ""}`}>
-          <BallIcon className="w-3 h-3 mt-px flex-shrink-0" />
+          <BallIcon className="w-3 h-3 mt-px shrink-0" />
           <span>
             {player} <span className="whitespace-nowrap">{minutes}</span>
           </span>

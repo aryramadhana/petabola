@@ -20,7 +20,7 @@ function DetailContent({ club, onClose }: { club: Club; onClose: () => void }) {
         <div
           className="relative overflow-hidden rounded-xl -m-1 p-1 flex items-center gap-3 hover:bg-black/[0.02] dark:hover:bg-white/5 transition-colors duration-200
           before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-px
-          before:bg-gradient-to-r before:from-transparent before:via-white/80 dark:before:via-white/30 before:to-transparent
+          before:bg-linear-to-r before:from-transparent before:via-white/80 dark:before:via-white/30 before:to-transparent
           before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
         >
           <ClubAvatar clubId={club.id} abbr={club.abbr} league={club.league} size={56} />
@@ -33,7 +33,7 @@ function DetailContent({ club, onClose }: { club: Club; onClose: () => void }) {
           type="button"
           onClick={onClose}
           aria-label="Tutup detail klub"
-          className={`text-[#44474c] dark:text-white/60 text-xl leading-none px-1 cursor-pointer hover:text-[#191c1e] dark:hover:text-white transition-colors rounded ${FOCUS_RING}`}
+          className={`text-[#44474c] dark:text-white/60 text-xl leading-none px-1 cursor-pointer hover:text-[#191c1e] dark:hover:text-white transition-colors rounded-sm ${FOCUS_RING}`}
         >
           ×
         </button>
@@ -42,7 +42,7 @@ function DetailContent({ club, onClose }: { club: Club; onClose: () => void }) {
       <div className="px-4 py-3 flex flex-col gap-3 overflow-y-auto">
         <div className="flex items-center justify-between">
           <span className="text-[#44474c] dark:text-white/60 text-xs flex items-center gap-1">
-            <MapPinIcon className="w-3 h-3 flex-shrink-0" />
+            <MapPinIcon className="w-3 h-3 shrink-0" />
             {club.city}, {club.province}
           </span>
           <LeagueBadge league={club.league} />
@@ -87,7 +87,7 @@ export function ClubDetailPane({ club, onClose, mobileOpen, showMobileOverlay = 
       {showMobileOverlay && (
         <>
           <div
-            className={`md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity ${
+            className={`md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-xs transition-opacity ${
               mobileOpen && club ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}
             onClick={onClose}

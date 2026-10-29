@@ -67,7 +67,7 @@ export function PlayerStatsTabs({
 
   return (
     <div className="h-full flex flex-col">
-      <div className="mb-3 flex-shrink-0">
+      <div className="mb-3 shrink-0">
         <div
           role="tablist"
           aria-label="Statistik top skor dan top assist"

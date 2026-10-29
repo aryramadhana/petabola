@@ -1,6 +1,33 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* next-themes toggles a `dark` class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* font-bebas / font-dm are legacy names, both now Plus Jakarta Sans */
+  --font-bebas: var(--font-pjs), sans-serif;
+  --font-dm: var(--font-pjs), sans-serif;
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Tailwind v3 compatibility: v4 changed the default border color to
+   currentColor and dropped the pointer cursor on buttons. Keep the v3
+   behaviour so existing `border` / `divide-*` utilities and buttons look
+   the same as before. */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 * {
   box-sizing: border-box;

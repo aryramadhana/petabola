@@ -41,6 +41,33 @@ export function MapView({
   const initializedRef = useRef(false);
   const fromMapClickRef = useRef(false);
 
+  function addMarkers(
+    L: typeof import("leaflet"),
+    map: ReturnType<typeof import("leaflet").map>,
+    clubList: Club[]
+  ) {
+    Object.values(markersRef.current).forEach((m) => map.removeLayer(m));
+    markersRef.current = {};
+
+    clubList.forEach((c) => {
+      const icon = L.divIcon({
+        className: "",
+        html: pinHTML(c),
+        iconSize: [40, 54],
+        iconAnchor: [20, 54],
+        popupAnchor: [0, -58],
+      });
+
+      const marker = L.marker([c.lat, c.lng], { icon }).addTo(map);
+
+      marker.on("click", () => {
+        fromMapClickRef.current = true;
+        onSelectClub(c, { fromMap: true });
+      });
+      markersRef.current[c.id] = marker;
+    });
+  }
+
   useEffect(() => {
     if (initializedRef.current) return;
     initializedRef.current = true;
@@ -139,33 +166,6 @@ export function MapView({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
-
-  function addMarkers(
-    L: typeof import("leaflet"),
-    map: ReturnType<typeof import("leaflet").map>,
-    clubList: Club[]
-  ) {
-    Object.values(markersRef.current).forEach((m) => map.removeLayer(m));
-    markersRef.current = {};
-
-    clubList.forEach((c) => {
-      const icon = L.divIcon({
-        className: "",
-        html: pinHTML(c),
-        iconSize: [40, 54],
-        iconAnchor: [20, 54],
-        popupAnchor: [0, -58],
-      });
-
-      const marker = L.marker([c.lat, c.lng], { icon }).addTo(map);
-
-      marker.on("click", () => {
-        fromMapClickRef.current = true;
-        onSelectClub(c, { fromMap: true });
-      });
-      markersRef.current[c.id] = marker;
-    });
-  }
 
   return <div ref={containerRef} className="w-full h-full" />;
 }

@@ -57,16 +57,16 @@ function PlayerGrid({
           >
             {accent ? (
               <span
-                className="flex-shrink-0 w-3.5 h-3.5 rounded-full flex items-center justify-center text-white text-[8px] font-bold"
+                className="shrink-0 w-3.5 h-3.5 rounded-full flex items-center justify-center text-white text-[8px] font-bold"
                 style={{ background: accent }}
               >
                 {rank}
               </span>
             ) : (
-              <span className="flex-shrink-0 w-3.5" aria-hidden="true" />
+              <span className="shrink-0 w-3.5" aria-hidden="true" />
             )}
             <div
-              className="flex-shrink-0"
+              className="shrink-0"
               aria-label={club?.name ?? p.clubId}
               title={club?.name ?? p.clubId}
             >
@@ -80,7 +80,7 @@ function PlayerGrid({
             <div className="flex-1 min-w-0 text-[13px] font-semibold text-[#1A1A2E] dark:text-white truncate">
               {p.name}
             </div>
-            <span className="flex-shrink-0 min-w-[14px] text-right font-bold text-[color:var(--stat-color)] dark:text-[color:var(--stat-color-dark)]">
+            <span className="shrink-0 min-w-[14px] text-right font-bold text-[color:var(--stat-color)] dark:text-[color:var(--stat-color-dark)]">
               {p[statKey] ?? "–"}
             </span>
           </div>
@@ -114,7 +114,7 @@ export function PlayerLeaderboard({
       className="h-full flex flex-col bg-white/80 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-white/70 dark:border-white/10 shadow-soft overflow-hidden"
       style={{ "--stat-color": textColor, "--stat-color-dark": textColorDark } as React.CSSProperties}
     >
-      <div className="flex-shrink-0 px-4 py-3 border-b border-[#F3F4F6] dark:border-white/10 flex items-center justify-between gap-2">
+      <div className="shrink-0 px-4 py-3 border-b border-[#F3F4F6] dark:border-white/10 flex items-center justify-between gap-2">
         <span className="font-bebas tracking-widest text-[13px] text-[#1A1A2E] dark:text-white">
           {title}
         </span>

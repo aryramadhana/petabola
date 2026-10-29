@@ -4,7 +4,7 @@
 // the surface's own background color (dark-mode convention here is plain
 // `dark:` classes, not CSS custom properties — see CLAUDE.md).
 export const FOCUS_RING =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f4645a] dark:focus-visible:ring-[#0d9488] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F0F2F5] dark:focus-visible:ring-offset-[#0d1b2a]";
+  "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#f4645a] dark:focus-visible:ring-[#0d9488] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F0F2F5] dark:focus-visible:ring-offset-[#0d1b2a]";
 
 // For elements inside Header, which is always dark chrome (bg-[#05111D])
 // regardless of light/dark theme — the background never changes, but the
@@ -12,4 +12,4 @@ export const FOCUS_RING =
 // mode), since the whole point of this palette is that switching themes
 // reads as switching identity, not just inverting a fixed brand color.
 export const FOCUS_RING_ON_DARK =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f4645a] dark:focus-visible:ring-[#0d9488] focus-visible:ring-offset-2 focus-visible:ring-offset-[#05111D]";
+  "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#f4645a] dark:focus-visible:ring-[#0d9488] focus-visible:ring-offset-2 focus-visible:ring-offset-[#05111D]";

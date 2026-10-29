@@ -46,7 +46,7 @@ export function GroupStandingsTabs({ groups, color }: Props) {
       <div
         role="tablist"
         aria-label="Pilih grup klasemen"
-        className="inline-flex p-1 gap-1 rounded-full bg-black/5 dark:bg-white/10 mb-3 flex-shrink-0 w-fit"
+        className="inline-flex p-1 gap-1 rounded-full bg-black/5 dark:bg-white/10 mb-3 shrink-0 w-fit"
       >
         {groups.map((g) => {
           const isActive = g.id === active;

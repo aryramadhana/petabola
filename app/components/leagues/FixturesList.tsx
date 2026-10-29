@@ -42,7 +42,7 @@ function WeekGroups({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
     <div className="divide-y divide-[#F3F4F6] dark:divide-white/10">
       {[...byWeek.entries()].map(([week, weekMatches]) => (
         <div key={week} className="p-4">
-          <div className="sticky top-0 z-10 -mx-4 -mt-4 px-4 pt-4 pb-2.5 mb-2.5 bg-white/95 dark:bg-[#0d1b2a]/95 backdrop-blur-sm text-[10px] font-semibold text-[#9EA3AE] dark:text-white/50 uppercase tracking-wide">
+          <div className="sticky top-0 z-10 -mx-4 -mt-4 px-4 pt-4 pb-2.5 mb-2.5 bg-white/95 dark:bg-[#0d1b2a]/95 backdrop-blur-xs text-[10px] font-semibold text-[#9EA3AE] dark:text-white/50 uppercase tracking-wide">
             Pekan {week}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
@@ -82,7 +82,7 @@ function WeekGroups({ matches, clubs }: { matches: Match[]; clubs: Club[] }) {
                     )}
                   </div>
                   <div className="flex items-center justify-center gap-1 text-[10px] text-[#9EA3AE] dark:text-white/50 mt-auto pt-1">
-                    <MapPinIcon className="w-2.5 h-2.5 flex-shrink-0" />
+                    <MapPinIcon className="w-2.5 h-2.5 shrink-0" />
                     <span className="truncate">{m.stadium ?? "—"}</span>
                   </div>
                 </div>

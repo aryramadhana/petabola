@@ -51,10 +51,10 @@ interface InfoCardProps {
 function InfoCard({ icon: Icon, title, body, featured = false, className = "" }: InfoCardProps) {
   return (
     <div
-      className={`relative overflow-hidden flex flex-col gap-2 bg-white/65 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-white/70 dark:border-white/10 shadow-soft transition-all duration-200 hover:shadow-lg hover:border-white/90 dark:hover:border-white/20 before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/80 dark:before:via-white/30 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300 ${featured ? "p-6" : "p-5"} ${className}`}
+      className={`relative overflow-hidden flex flex-col gap-2 bg-white/65 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-white/70 dark:border-white/10 shadow-soft transition-all duration-200 hover:shadow-lg hover:border-white/90 dark:hover:border-white/20 before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-linear-to-r before:from-transparent before:via-white/80 dark:before:via-white/30 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300 ${featured ? "p-6" : "p-5"} ${className}`}
     >
       <div
-        className={`flex items-center justify-center rounded-xl bg-[#be123c]/10 dark:bg-[#5eead4]/10 text-[#be123c] dark:text-[#5eead4] flex-shrink-0 ${featured ? "w-11 h-11" : "w-9 h-9"}`}
+        className={`flex items-center justify-center rounded-xl bg-[#be123c]/10 dark:bg-[#5eead4]/10 text-[#be123c] dark:text-[#5eead4] shrink-0 ${featured ? "w-11 h-11" : "w-9 h-9"}`}
       >
         <Icon className={featured ? "w-5 h-5" : "w-4 h-4"} />
       </div>

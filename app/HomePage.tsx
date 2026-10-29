@@ -58,10 +58,13 @@ export function HomePage({ clubs, leagues, seasons, lastDataUpdate }: Props) {
     setMobileSheetOpen(false);
   }
 
-  useEffect(() => {
+  // Changing the league filter clears the current selection, since the
+  // selected club may no longer be among the visible markers.
+  function handleLeagueChange(league: FilterLeague) {
+    setLeagueFilter(league);
     setSelectedId(null);
     setMobileSheetOpen(false);
-  }, [leagueFilter]);
+  }
 
   useEffect(() => {
     const el = berandaRef.current;
@@ -155,7 +158,7 @@ export function HomePage({ clubs, leagues, seasons, lastDataUpdate }: Props) {
             filtered={filtered}
             selectedId={selectedId}
             leagueFilter={leagueFilter}
-            onLeagueChange={setLeagueFilter}
+            onLeagueChange={handleLeagueChange}
             onSelectClub={handleSelectClub}
             open={sidebarOpen}
             onToggle={() => setSidebarOpen((v) => !v)}
@@ -180,7 +183,7 @@ export function HomePage({ clubs, leagues, seasons, lastDataUpdate }: Props) {
           filtered={filtered}
           selectedId={selectedId}
           leagueFilter={leagueFilter}
-          onLeagueChange={setLeagueFilter}
+          onLeagueChange={handleLeagueChange}
           onSelectClub={handleSelectClub}
         />
       )}

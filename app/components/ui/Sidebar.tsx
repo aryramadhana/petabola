@@ -54,7 +54,7 @@ export function Sidebar({
             <div className="flex items-center gap-2.5 mt-1.5 flex-wrap">
               {LEGEND_LEAGUES.map((lg) => (
                 <div key={lg} className="flex items-center gap-1 text-[9px] text-[#44474c] dark:text-white/60">
-                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: getLeagueColor(lg) }} />
+                  <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: getLeagueColor(lg) }} />
                   {lg}
                 </div>
               ))}
@@ -67,7 +67,7 @@ export function Sidebar({
                 key={f.value}
                 onClick={() => onLeagueChange(f.value)}
                 className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-all ${FOCUS_RING} ${leagueFilter === f.value
-                  ? "bg-gradient-to-br from-[#fb7185] to-[#fb923c] dark:from-[#2dd4bf] dark:to-[#38bdf8] text-white"
+                  ? "bg-linear-to-br from-[#fb7185] to-[#fb923c] dark:from-[#2dd4bf] dark:to-[#38bdf8] text-white"
                   : "bg-[#EFF1F4] dark:bg-white/10 text-[#44474c] dark:text-white/70 hover:bg-[#E6E8EB] dark:hover:bg-white/20"
                   }`}
               >

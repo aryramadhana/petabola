@@ -145,7 +145,7 @@ export default async function LeagueDetailPage({ params }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:h-[560px]">
           <section id="ringkasan" className="scroll-mt-24 flex flex-col gap-4 lg:h-full lg:min-h-0">
             <div
-              className="relative flex-shrink-0 rounded-2xl overflow-hidden border border-[#EAECF0] dark:border-white/10 shadow-sm px-6 py-8 sm:px-8 sm:py-10"
+              className="relative shrink-0 rounded-2xl overflow-hidden border border-[#EAECF0] dark:border-white/10 shadow-xs px-6 py-8 sm:px-8 sm:py-10"
               style={{ background: `linear-gradient(135deg, ${color}, ${color}BB)` }}
             >
               <BallIcon className="absolute -right-8 -bottom-12 w-56 h-56 sm:w-64 sm:h-64 text-white/10 pointer-events-none select-none" />
@@ -187,7 +187,7 @@ export default async function LeagueDetailPage({ params }: Props) {
                 </div>
 
                 {logo && (
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-white shadow-sm flex items-center justify-center p-2.5 sm:p-3 flex-shrink-0">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-white shadow-xs flex items-center justify-center p-2.5 sm:p-3 shrink-0">
                     <img
                       src={logo}
                       alt={`Logo ${league.name}`}

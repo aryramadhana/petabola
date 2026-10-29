@@ -40,7 +40,7 @@ export function MobileDrawer({
     <>
       <button
         onClick={() => setOpen(true)}
-        className={`md:hidden fixed bottom-6 right-4 z-40 bg-gradient-to-br from-[#fb7185D9] to-[#fb923cD9] dark:from-[#2dd4bfD9] dark:to-[#38bdf8D9] backdrop-blur-md text-white rounded-full px-4 py-2.5 flex items-center gap-2 text-sm font-semibold border border-white/30 shadow-[0_4px_20px_rgba(244,100,90,0.35)] dark:shadow-[0_4px_20px_rgba(13,148,136,0.35)] hover:shadow-[0_6px_28px_rgba(244,100,90,0.5)] dark:hover:shadow-[0_6px_28px_rgba(13,148,136,0.5)] transition-shadow duration-200 ${FOCUS_RING}`}
+        className={`md:hidden fixed bottom-6 right-4 z-40 bg-linear-to-br from-[#fb7185D9] to-[#fb923cD9] dark:from-[#2dd4bfD9] dark:to-[#38bdf8D9] backdrop-blur-md text-white rounded-full px-4 py-2.5 flex items-center gap-2 text-sm font-semibold border border-white/30 shadow-[0_4px_20px_rgba(244,100,90,0.35)] dark:shadow-[0_4px_20px_rgba(13,148,136,0.35)] hover:shadow-[0_6px_28px_rgba(244,100,90,0.5)] dark:hover:shadow-[0_6px_28px_rgba(13,148,136,0.5)] transition-shadow duration-200 ${FOCUS_RING}`}
       >
         <UserGroupIcon className="w-4 h-4" />
         <span>Lihat {filtered.length} Klub</span>
@@ -48,7 +48,7 @@ export function MobileDrawer({
 
       {open && (
         <div
-          className="md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+          className="md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-xs"
           onClick={() => setOpen(false)}
         />
       )}
@@ -70,13 +70,13 @@ export function MobileDrawer({
             <div className="flex items-center gap-2.5 mt-1 flex-wrap">
               {LEGEND_LEAGUES.map((lg) => (
                 <div key={lg} className="flex items-center gap-1 text-[9px] text-[#44474c] dark:text-white/60">
-                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: getLeagueColor(lg) }} />
+                  <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: getLeagueColor(lg) }} />
                   {lg}
                 </div>
               ))}
             </div>
           </div>
-          <button onClick={() => setOpen(false)} aria-label="Tutup daftar klub" className={`text-[#44474c] dark:text-white/60 text-xl leading-none rounded ${FOCUS_RING}`}>×</button>
+          <button onClick={() => setOpen(false)} aria-label="Tutup daftar klub" className={`text-[#44474c] dark:text-white/60 text-xl leading-none rounded-sm ${FOCUS_RING}`}>×</button>
         </div>
 
         <div className="px-4 pb-2 flex gap-1.5 flex-wrap border-b border-[#F3F4F6] dark:border-white/10">
@@ -85,7 +85,7 @@ export function MobileDrawer({
               key={f.value}
               onClick={() => onLeagueChange(f.value)}
               className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-all ${FOCUS_RING} ${leagueFilter === f.value
-                ? "bg-gradient-to-br from-[#fb7185] to-[#fb923c] dark:from-[#2dd4bf] dark:to-[#38bdf8] text-white"
+                ? "bg-linear-to-br from-[#fb7185] to-[#fb923c] dark:from-[#2dd4bf] dark:to-[#38bdf8] text-white"
                 : "bg-[#EFF1F4] dark:bg-white/10 text-[#44474c] dark:text-white/70"
                 }`}
             >
@@ -114,13 +114,13 @@ export function MobileDrawer({
               <div className="flex-1 min-w-0">
                 <div className="text-[12px] font-semibold text-[#191c1e] dark:text-white truncate">{club.name}</div>
                 <div className="text-[10px] text-[#44474c] dark:text-white/60 mt-0.5 flex items-center gap-1">
-                  <MapPinIcon className="w-2.5 h-2.5 flex-shrink-0" />
+                  <MapPinIcon className="w-2.5 h-2.5 shrink-0" />
                   <span>{club.city}</span>
                   <span>·</span>
                   <LeagueBadge league={club.league} size="xs" />
                 </div>
               </div>
-              <svg className="w-4 h-4 text-[#E2E8F0] dark:text-white/20 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-[#E2E8F0] dark:text-white/20 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>

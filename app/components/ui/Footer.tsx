@@ -10,7 +10,7 @@ export function Footer() {
           <img
             src="/mascot.png"
             alt="Maskot PetaBola"
-            className="w-12 h-12 rounded-full flex-shrink-0"
+            className="w-12 h-12 rounded-full shrink-0"
             onError={(e) => {
               e.currentTarget.style.display = "none";
             }}
@@ -31,7 +31,7 @@ export function Footer() {
             href="https://www.instagram.com/dabelajar"
             target="_blank"
             rel="noopener noreferrer"
-            className={`font-semibold text-[#fda4af] dark:text-[#5eead4] hover:underline rounded-sm ${FOCUS_RING_ON_DARK}`}
+            className={`font-semibold text-[#fda4af] dark:text-[#5eead4] hover:underline rounded-xs ${FOCUS_RING_ON_DARK}`}
           >
             @dabelajar
           </a>

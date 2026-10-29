@@ -19,7 +19,7 @@ export function LeagueCard({ league, clubCount, seasonName }: Props) {
   return (
     <Link
       href={`/liga/${league.id}`}
-      className={`group relative h-full bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-white/70 dark:border-white/10 overflow-hidden shadow-soft hover:shadow-lg hover:-translate-y-1 hover:bg-white/75 dark:hover:bg-white/10 transition-all duration-300 flex flex-col before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-px before:z-10 before:bg-gradient-to-r before:from-transparent before:via-white/80 dark:before:via-white/30 before:to-transparent before:opacity-0 group-hover:before:opacity-100 before:transition-opacity before:duration-300 ${FOCUS_RING}`}
+      className={`group relative h-full bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-white/70 dark:border-white/10 overflow-hidden shadow-soft hover:shadow-lg hover:-translate-y-1 hover:bg-white/75 dark:hover:bg-white/10 transition-all duration-300 flex flex-col before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-px before:z-10 before:bg-linear-to-r before:from-transparent before:via-white/80 dark:before:via-white/30 before:to-transparent before:opacity-0 group-hover:before:opacity-100 before:transition-opacity before:duration-300 ${FOCUS_RING}`}
     >
       <div
         className="px-7 py-9 flex items-center justify-between gap-3"
@@ -34,7 +34,7 @@ export function LeagueCard({ league, clubCount, seasonName }: Props) {
           </div>
         </div>
         {logo && (
-          <div className="w-20 h-20 rounded-xl bg-white shadow-sm flex items-center justify-center p-3 flex-shrink-0">
+          <div className="w-20 h-20 rounded-xl bg-white shadow-xs flex items-center justify-center p-3 shrink-0">
             <img
               src={logo}
               alt={`Logo ${league.name}`}

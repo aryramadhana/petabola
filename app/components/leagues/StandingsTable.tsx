@@ -20,7 +20,7 @@ export function StandingsTable({ rows, clubs, updatedAt, title = "KLASEMEN" }: P
 
   return (
     <div className="h-full flex flex-col bg-white/80 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-white/70 dark:border-white/10 shadow-soft overflow-hidden">
-      <div className="flex-shrink-0 px-4 py-3 border-b border-[#F3F4F6] dark:border-white/10 flex items-center justify-between gap-2">
+      <div className="shrink-0 px-4 py-3 border-b border-[#F3F4F6] dark:border-white/10 flex items-center justify-between gap-2">
         <span className="font-bebas tracking-widest text-[13px] text-[#1A1A2E] dark:text-white">
           {title}
         </span>
@@ -37,14 +37,14 @@ export function StandingsTable({ rows, clubs, updatedAt, title = "KLASEMEN" }: P
       ) : (
         <>
           {!hasStats && (
-            <p className="flex-shrink-0 px-4 pt-3 text-[11px] text-[#9EA3AE] dark:text-white/50">
+            <p className="shrink-0 px-4 pt-3 text-[11px] text-[#9EA3AE] dark:text-white/50">
               Urutan &amp; statistik klasemen belum tersedia dari sumber yang dapat diverifikasi. Berikut klub peserta liga ini:
             </p>
           )}
           <div className="flex-1 min-h-0 overflow-x-auto">
             <div className="h-full overflow-y-auto">
               <table className="w-full text-[11px] min-w-[560px]">
-                <thead className="sticky top-0 z-10 bg-white/95 dark:bg-[#0d1b2a]/95 backdrop-blur-sm">
+                <thead className="sticky top-0 z-10 bg-white/95 dark:bg-[#0d1b2a]/95 backdrop-blur-xs">
                   <tr className="text-[#9EA3AE] dark:text-white/50 text-[10px] uppercase tracking-wide border-b border-[#F3F4F6] dark:border-white/10">
                     <th className="text-left py-2 px-3 w-8">#</th>
                     <th className="text-left py-2 px-3">Klub</th>

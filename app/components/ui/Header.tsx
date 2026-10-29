@@ -59,8 +59,8 @@ export function Header({ clubs, onSelectClub, activeSection }: Props) {
     <header className="relative bg-[#05111D]/80 backdrop-blur-xl px-4 flex items-center justify-between sticky top-0 z-50 gap-3 border-b border-white/10 h-14">
       {/* Logo + Search (left) */}
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2.5 flex-shrink-0">
-          <div className="logo-mark w-8 h-8 bg-gradient-to-br from-[#fb7185] to-[#fb923c] dark:from-[#2dd4bf] dark:to-[#38bdf8] rounded-lg flex items-center justify-center flex-shrink-0">
+        <div className="flex items-center gap-2.5 shrink-0">
+          <div className="logo-mark w-8 h-8 bg-linear-to-br from-[#fb7185] to-[#fb923c] dark:from-[#2dd4bf] dark:to-[#38bdf8] rounded-lg flex items-center justify-center shrink-0">
             <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
               <circle cx="12" cy="11" r="7.2" fill="white" />
               <path d="M12 18.2c1.3 1.3 2.3 2.2 2.3 2.2s-.7.4-2.3.4-2.3-.4-2.3-.4 1-.9 2.3-2.2z" fill="white" />
@@ -89,7 +89,7 @@ export function Header({ clubs, onSelectClub, activeSection }: Props) {
             onFocus={() => setShowResults(true)}
             onBlur={() => setTimeout(() => setShowResults(false), 150)}
             placeholder="Cari klub, kota..."
-            className={`w-full pl-8 pr-3 py-1.5 text-xs rounded-full bg-white/10 border border-white/10 text-white placeholder-white/50 outline-none focus:bg-white focus:text-[#191c1e] focus:placeholder-[#44474c] focus:border-white transition-colors ${FOCUS_RING_ON_DARK}`}
+            className={`w-full pl-8 pr-3 py-1.5 text-xs rounded-full bg-white/10 border border-white/10 text-white placeholder:text-white/50 outline-hidden focus:bg-white focus:text-[#191c1e] focus:placeholder:text-[#44474c] focus:border-white transition-colors ${FOCUS_RING_ON_DARK}`}
           />
           {showResults && trimmed.length > 0 && (
             hits.length > 0 ? (
@@ -105,7 +105,7 @@ export function Header({ clubs, onSelectClub, activeSection }: Props) {
                     }}
                   >
                     <div
-                      className="w-7 h-7 rounded-full border-2 flex items-center justify-center text-[9px] font-bold flex-shrink-0 bg-white"
+                      className="w-7 h-7 rounded-full border-2 flex items-center justify-center text-[9px] font-bold shrink-0 bg-white"
                       style={{ borderColor: getLeagueColor(c.league), color: getLeagueTextColor(c.league) }}
                     >
                       {c.abbr}
